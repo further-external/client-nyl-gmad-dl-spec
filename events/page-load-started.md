@@ -1,25 +1,84 @@
 # Page Load Started
 
-[Back to the overview](../README.md) · Needed for your reports
+**Event name:** `Page Load Started` · Needed for your reports
 
-**What it records:** a page view begins. It describes the page: which page or step, which
-association, the address and the campaign. It is the first event of every page view.
+[Back to the overview](../README.md)
 
-## When to add it
+## What it answers
 
-- **Once per page view, first:** on the first page of a visit, and on every change of page or
-  step inside the portal, even though no new web page loads.
-- **After the router has settled on the final page.** If one address redirects to another, only
-  the final page counts.
-- **Not a page view:** a change to the address's `?` part or `#` part alone, or a drawer or window
-  opening.
+- How many views each page and each application step gets.
+- Which association's portal people are using.
+- Which campaigns bring visitors in, and which page they enter on.
+- Which landing version and layout they saw.
 
-Then come [User Detected](user-detected.md), any events that describe the page, and
-[Page Load Completed](page-load-completed.md) ([the sequence](../how-it-works.md#every-page-view-step-by-step)).
+## When to fire it
+
+- **Fire this event first on every page view:** when the portal first loads, and on every change
+  of page or step inside the portal, even though no new web page loads.
+- **Fire it once the router has settled on the final page.** If one address redirects to another,
+  only the final page counts.
+- **Then fire** [User Detected](user-detected.md), any events that describe the page, and
+  [Page Load Completed](page-load-completed.md).
+- **Do not fire it** when only the `?` or `#` part of the address changes, or when a drawer or a
+  window opens.
+- **Send the page object whole every time**, so nothing from the previous page survives.
 
 ## Example
 
-The visitor arrives at the WAEPA portal from an email campaign:
+The visitor arrives from an email campaign, then moves from the landing page to the first
+application step:
+
+```mermaid
+sequenceDiagram
+  participant R as Router
+  participant UI as Portal
+  participant DL as Data layer
+  participant AA as Adobe Analytics
+  R->>UI: settles on the landing page
+  rect rgba(80,140,255,0.12)
+    UI->>DL: Page Load Started (loadType initial, campaign set)
+    UI->>DL: User Detected
+    UI->>DL: Page Load Completed
+    DL->>AA: page view
+  end
+  Note over R,UI: Begin application: nothing on the click
+  R->>UI: settles on Membership
+  rect rgba(80,140,255,0.12)
+    UI->>DL: Page Load Started (loadType virtual, campaign empty)
+    UI->>DL: User Detected
+    UI->>DL: Application Activity step viewed (membership)
+    UI->>DL: Page Load Completed
+    DL->>AA: page view
+  end
+```
+
+The first page of a visit records the campaign. Each later step is a new page view of the
+single-page application (`loadType: "virtual"`), with the campaign left empty.
+
+## Javascript code
+
+```js
+window.appEventData = window.appEventData || [];
+window.appEventData.push({
+  "event": "Page Load Started",
+  "page": {
+    "pageName": "<pageName>",
+    "pageId": "<pageId>",
+    "pageType": "<pageType>",
+    "association": "<association>",
+    "experience": "<experience>",
+    "url": "<url>",
+    "host": "<host>",
+    "campaign": "<campaign>",
+    "stage": "<stage>",
+    "loadType": "<loadType>",
+    "language": "<language>",
+    "environment": "<environment>"
+  }
+});
+```
+
+## Populated example
 
 ```js
 window.appEventData = window.appEventData || [];
@@ -42,30 +101,28 @@ window.appEventData.push({
 });
 ```
 
-On the next step, the same object is sent again, complete: `loadType` becomes `virtual`, and
-`campaign` becomes `null`.
-
-## Properties
+## Variable definitions
 
 All 12 details are sent every time; a detail that does not apply is `null`.
 
-| Property | Required | What it holds | Example | Use |
-|---|---|---|---|---|
-| `page.pageName` | yes | The page's reporting name: page type, then page id. **Proposed** ([decisions 5 and 16](../open-questions.md)) | `application\|eligibility` | Reports |
-| `page.pageId` | yes | The page's id, from the route table ([decision 16](../open-questions.md)) | `eligibility`, `receipt` | Reports |
-| `page.pageType` | yes | The page group (table below) | `application` | Reports |
-| `page.association` | yes | The association whose portal is shown. Set by the site, never guessed from the address ([decisions 2 and 13](../open-questions.md)) | `waepa`, `abe` | Reports |
-| `page.experience` | yes | The landing version and layout, kept for the whole visit | `hero-image\|multi` | Recommended |
-| `page.url` | yes | The page's address, with every unlisted address parameter removed ([below](#how-the-address-is-cleaned)) | `https://waepa.nylinsure.com/eligibility` | Reports |
-| `page.host` | yes | The portal's web address, lower case. Kept separate from the association, because existing segments rely on it | `waepa.nylinsure.com` | Reports |
-| `page.campaign` | no | The `campaign` address parameter, on the first page of a visit only, at most 30 characters ([decision 6](../open-questions.md)) | `waepa-oe-2026-email` | Reports |
-| `page.stage` | no | The application stage (table below); `null` outside the application | `getting-started` | Recommended |
-| `page.loadType` | yes | `initial` for the first page of a page load (including a reload and the return from DocuSign); `virtual` for a change of step | `initial` | Recommended |
-| `page.language` | no | The page's language | `en-us` | Recommended |
-| `page.environment` | yes | Which build: production, staging or development | `production` | Recommended |
+| Path | Type | Description | Example |
+|---|---|---|---|
+| `page.pageName` | string | Required. For your reports. The page's reporting name: page type, then page id. Proposed ([decisions 5 and 16](../open-questions.md)) | `home\|landing`, `application\|eligibility` |
+| `page.pageId` | string | Required. For your reports. The page's id, from the route table ([decision 16](../open-questions.md)) | `landing`, `eligibility`, `receipt` |
+| `page.pageType` | string | Required. For your reports. The page group ([table below](#page-type-and-stage-by-page)) | `home`, `application`, `confirmation` |
+| `page.association` | string | Required. For your reports. The association whose portal is shown. Set by the site, never guessed from the address ([decisions 2 and 13](../open-questions.md)) | `waepa`, `abe` |
+| `page.experience` | string | Required. Recommended. The landing version and layout, kept for the whole visit | `hero-image\|multi` |
+| `page.url` | string | Required. For your reports. The page's address, with every unlisted parameter removed ([below](#how-the-address-is-cleaned)) | `https://waepa.nylinsure.com/eligibility` |
+| `page.host` | string | Required. For your reports. The portal's web address, lower case. Kept separate from the association, because existing segments rely on it | `waepa.nylinsure.com` |
+| `page.campaign` | string or null | For your reports. The `campaign` address parameter, on the first page of a visit only, at most 30 characters ([decision 6](../open-questions.md)) | `waepa-oe-2026-email`, `null` |
+| `page.stage` | string or null | Recommended. The application stage ([table below](#page-type-and-stage-by-page)); `null` outside the application | `getting-started`, `null` |
+| `page.loadType` | string | Required. Recommended. `initial` for the first page of a page load (including a reload and the return from DocuSign); `virtual` for a change of step | `initial`, `virtual` |
+| `page.language` | string or null | Recommended. The page's language | `en-us` |
+| `page.environment` | string | Required. Recommended. Which build: production, staging or development | `production` |
 
-**Page type and stage by page.** Proposed until the production route table is confirmed
-([decision 16](../open-questions.md)).
+### Page type and stage by page
+
+Proposed until the production route table is confirmed ([decision 16](../open-questions.md)).
 
 | Page id | Page type | Stage |
 |---|---|---|
@@ -80,7 +137,7 @@ All 12 details are sent every time; a detail that does not apply is `null`.
 | `advisor-login`, `advisor-send-confirmation`, `application-edit-confirmation` | `advisor` | none |
 | `not-found` | `error` | none |
 
-## How the address is cleaned
+### How the address is cleaned
 
 An address can carry personal details (a benefit amount, a token, an ad click id), so the site
 cleans it before adding it:
@@ -90,20 +147,14 @@ cleans it before adding it:
   `featured_prod`.
 - **Remove** every other parameter and the `#` part. For an unknown page, the path becomes
   `/not-found`.
+- **The campaign code comes from the address the visitor arrived on**, even if the site removes it
+  from the address bar afterwards.
 
 | Address in the browser | `page.url` |
 |---|---|
 | `https://waepa.nylinsure.com/?association=waepa&campaign=waepa-oe-2026-email&gclid=abc123&amt=250000` | `https://waepa.nylinsure.com/?association=waepa&campaign=waepa-oe-2026-email` |
 | `https://waepa.nylinsure.com/?URLClickedFrom=email&token=4f9c2a7b` | `https://waepa.nylinsure.com/?URLClickedFrom=email` |
 | `https://waepa.nylinsure.com/membershp` (a mistyped page) | `https://waepa.nylinsure.com/not-found` |
-
-## Key rules
-
-1. **One per page view**, and always followed by exactly one Page Load Completed.
-2. **The page object is sent whole every time**, so nothing from the previous page survives.
-3. **The campaign code comes from the address the visitor arrived on**, even if the site removes it
-   from the address bar afterwards.
-4. **The page id follows the route**, never what happens to be on the screen.
 
 ## How to check it
 

@@ -1,23 +1,29 @@
 # User Detected
 
-[Back to the overview](../README.md) · Recommended
+**Event name:** `User Detected` · Recommended
 
-**What it records:** who is visiting, in two details: whether the visitor's identity was checked
-in this visit, and whether they are a consumer or an advisor. **Never who they are:** no name,
-email, phone number or customer id.
+[Back to the overview](../README.md)
 
-## When to add it
+## What it answers
 
-- **Once per page view, second:** right after [Page Load Started](page-load-started.md), on every
-  page and step.
+- How many visitors are consumers, advisors, or applicants reviewing an advisor's work.
+- How many consumers resume an application by checking their identity.
+- How many advisors log in.
+- Never who anyone is: no name, email, phone number or customer id.
+
+## When to fire it
+
+- **Fire this event second on every page view**, right after
+  [Page Load Started](page-load-started.md), on every page and step.
+- **Set both details from the site's own session state**, never from the page or the address.
+- **The status changes between page views, never in the middle of one.** The page that confirms a
+  code or a login still carries the old status; the next page carries the new one.
 - Adobe Launch attaches these two details to every later hit of the page view, so the other events
   never repeat them.
 
-## How the visitor's status changes
+## Example
 
-Each box is what User Detected sends. The status changes **between page views, never in the middle
-of one**: the hit that records a successful code check still carries the old status, and the next
-page carries the new one.
+Each box is what User Detected sends:
 
 ```mermaid
 stateDiagram-v2
@@ -37,36 +43,46 @@ stateDiagram-v2
 code. Only advisors log in. What the old "login success" measure should mean now is
 [decision 3](../open-questions.md).
 
-## Example
+## Javascript code
 
 ```js
+window.appEventData = window.appEventData || [];
 window.appEventData.push({
   "event": "User Detected",
   "user": {
-    "loginStatus": "anonymous",
+    "loginStatus": "<loginStatus>",
+    "userType": "<userType>"
+  }
+});
+```
+
+## Populated example
+
+A consumer on the first page after a successful resume code check:
+
+```js
+window.appEventData = window.appEventData || [];
+window.appEventData.push({
+  "event": "User Detected",
+  "user": {
+    "loginStatus": "verified",
     "userType": "consumer"
   }
 });
 ```
 
-## Properties
+## Variable definitions
 
-| Property | Required | What it holds | Values |
+| Path | Type | Description | Example |
 |---|---|---|---|
-| `user.loginStatus` | yes | Whether the visitor's identity was checked in this visit. When more than one applies, the strongest wins | `anonymous` (no check), `verified` (a consumer passed the resume email and code check), `logged-in` (an advisor is logged in) |
-| `user.userType` | yes | Which experience the visitor is in | `consumer`, `advisor`, `advisor-applicant` (an applicant reviewing an application an advisor prepared) |
+| `user.loginStatus` | string | Required. Recommended. Whether the visitor's identity was checked in this visit. When more than one applies, the strongest wins: `logged-in`, then `verified`, then `anonymous` | `anonymous` (no check), `verified` (a consumer passed the resume email and code check), `logged-in` (an advisor is logged in) |
+| `user.userType` | string | Required. Recommended. Which experience the visitor is in | `consumer`, `advisor`, `advisor-applicant` (an applicant reviewing an application an advisor prepared) |
 
 **Valid pairs:** `anonymous` or `verified` with `consumer`; `anonymous` or `logged-in` with
 `advisor`; `anonymous` or `verified` with `advisor-applicant`. Any other pair is a defect.
 
-## Key rules
-
-1. **Sent whole on every page view**; neither detail is ever empty.
-2. **Set by the site's own session state**, never guessed from the page or the address.
-3. **No personal identifiers, ever**, not even a scrambled one.
-
 ## How to check it
 
-1. On every page, User Detected comes right after Page Load Started.
+1. On every page, User Detected comes right after Page Load Started, and neither detail is empty.
 2. Resume an application with a test email and code: the page that confirms the code still shows
    `anonymous`; the next page shows `verified`.

@@ -1,18 +1,29 @@
 # Page Load Completed
 
-[Back to the overview](../README.md) · Needed for your reports
+**Event name:** `Page Load Completed` · Needed for your reports
 
-**What it records:** the page view is complete. It carries no details of its own. When Adobe
-Launch sees it, it sends **one page view** to Adobe Analytics, carrying the page details, the
-visitor details and every event that described the page.
+[Back to the overview](../README.md)
 
-## When to add it
+## What it answers
 
-- **Once per page view, last:** exactly one for each [Page Load Started](page-load-started.md),
-  after the new page or step is on screen, not when the change starts.
-- The next page's Page Load Started comes only after this one.
+- How many page views each page and step gets, counted once each.
+- Which steps of the application were viewed, because the step travels with the page view.
 
-## Example: moving from Membership to Eligibility
+## When to fire it
+
+- **Fire this event last on every page view:** exactly one for each
+  [Page Load Started](page-load-started.md), once the new page or step is on screen, not when the
+  change starts.
+- **The next page's Page Load Started comes only after this one.**
+- **When Adobe Launch sees it, it sends one page view** to Adobe Analytics, carrying the page
+  details, the visitor details and every event that described the page.
+- **Events the visitor causes after this point are separate hits**, never part of the page view.
+- **The return from DocuSign to the receipt is a new page load**, so it starts again with Page
+  Load Started.
+
+## Example
+
+Moving from Membership to Eligibility:
 
 ```mermaid
 sequenceDiagram
@@ -32,18 +43,36 @@ sequenceDiagram
   end
 ```
 
+The click itself sends nothing. Page Load Completed closes the Eligibility page view, and the step
+viewed travels on it.
+
+## Javascript code
+
+The event has no details of its own:
+
 ```js
+window.appEventData = window.appEventData || [];
 window.appEventData.push({
   "event": "Page Load Completed"
 });
 ```
 
-## Key rules
+## Populated example
 
-1. **Exactly one per page view.** A missing one loses the page view; a second one doubles it.
-2. **Events the visitor causes after this point are separate hits**, never part of the page view.
-3. **The return from DocuSign to the receipt is a new page load**, so it starts again with Page
-   Load Started.
+The same push on every page and step:
+
+```js
+window.appEventData = window.appEventData || [];
+window.appEventData.push({
+  "event": "Page Load Completed"
+});
+```
+
+## Variable definitions
+
+| Path | Type | Description | Example |
+|---|---|---|---|
+| `event` | string | Required. For your reports. The event name. It has no other details | `Page Load Completed` |
 
 ## How to check it
 

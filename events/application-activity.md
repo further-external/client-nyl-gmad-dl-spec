@@ -1,44 +1,60 @@
 # Application Activity
 
-[Back to the overview](../README.md) · Needed for your reports
+**Event name:** `Application Activity` · Needed for your reports
 
-**What it records:** progress through the quote and the insurance application, from the first
-quote to the receipt, in one event. `application.action` says what happened. The products involved
-sit inside the same object, in `application.product`.
+[Back to the overview](../README.md)
+
+## What it answers
+
+- How many visitors start a quote, see products, and add them to the cart.
+- How many start an application, reach each step, and submit it. Where they drop off.
+- Which products are viewed, added and submitted.
+- How many are stopped at Membership, how many save, how many resume, how many leave to sign.
+- How many advisor-prepared applications are sent.
 
 The whole journey, page by page, is on [The application journey](../application-journey.md).
 
-## The actions
+## When to fire it
 
-**Needed for your reports:**
+- **Fire this event when the visitor makes progress in the quote or the application** (the
+  [actions below](#actions)), when the result happens, not on the click: products viewed when the
+  results arrive, submitted when the receipt shows.
+- **Fire it on every experience the same way**, with or without the instant quote panel
+  ([the rule](../how-it-works.md#which-event-fires-where-the-two-landing-experiences)).
+- **Fire the page-view actions** (`step-viewed`, `submitted`, `resumed`,
+  `advisor-confirmation-sent`) between User Detected and Page Load Completed, so they travel with
+  the page view. Fire the others when they happen, each as its own hit.
+- **Never repeat a once-only action on a reload:** remember `started` and `saved` for the
+  application, and `submitted` for the receipt number.
+- **Do not fire it for:** the Begin application click, a Next that fails validation (that is a
+  [Form Activity](form-activity.md) error), messages the system shows by itself, a screen
+  refreshing, answers on the profile, health, payment or beneficiary pages, or the clicks listed
+  under [Interaction](interaction.md).
+- **Never send amounts, premiums or answers.** See [Privacy](../privacy.md).
 
-| Action | When | Feeds |
-|---|---|---|
-| `products-viewed` | "See my quote" (quote drawer or instant quote panel) or "See my coverage options" returns results. Once per search, when the results arrive. Holds every product returned | Product |
-| `product-added` | A product enters the cart after Add or Add coverage. Holds the added product | Product |
-| `started` | The first input on the Membership form. Once per application. Not on the Begin application click | Form Start |
-| `step-viewed` | Every view of an application page, Membership to Signature, revisits included (marked as a repeat). With the page view | Eligibility, Coverage, Preview |
-| `submitted` | The receipt page shows its confirmation number. Once per receipt number. With the page view. Holds every submitted product | Application Submit, Product |
-| `advisor-confirmation-sent` | The advisor's "Application sent successfully" page. With the page view ([decision 7](../open-questions.md)) | Advisor Confirmation |
-| `esign-started` | Next on the Signature page, as the visitor leaves for DocuSign ([decision 4](../open-questions.md)) | Signature, possibly |
+## Actions
 
-**Recommended:**
+`application.action` says what happened. These are all the actions expected:
 
-| Action | When |
-|---|---|
-| `quote-started` | The first input in the quote drawer or the instant quote panel. Not when it opens |
-| `product-removed` | Remove, in the coverage cart |
-| `step-completed` | Next passes validation, Membership to Payment, just before the page changes. **Proposed**, and data layer only for now ([decision 9](../open-questions.md)) |
-| `saved` | The first successful autosave, after Membership. Once per application |
-| `resumed` | The first application page after a resume (code accepted, or Continue Application on the welcome-back page). With the page view |
-| `knocked-out` | The first Membership answer is "not a member": the message shows and Next stays disabled. A second reason, an eligibility rule, is **Proposed** ([decision 17](../open-questions.md)) |
+| `application.action` | Fire it when | With the page view or its own hit | Use |
+|---|---|---|---|
+| `quote-started` | The first input in the quote drawer or the instant quote panel. Not when it opens | its own hit | Recommended |
+| `products-viewed` | "See my quote" (drawer or instant quote panel) or "See my coverage options" returns results. Once per search. Holds every product returned | its own hit | Your reports: Product |
+| `product-added` | A product enters the cart after Add or Add coverage. Holds the added product | its own hit | Your reports: Product |
+| `product-removed` | Remove, in the coverage cart. Holds the removed product | its own hit | Recommended |
+| `started` | The first input on the Membership form. Once per application. Not on the Begin application click | its own hit | Your reports: Form Start |
+| `step-viewed` | Every view of an application page, Membership to Signature, revisits included (marked as a repeat) | with the page view | Your reports: Eligibility, Coverage, Preview (Proposed: every view counts) |
+| `step-completed` | Next passes validation, Membership to Payment, just before the page changes | data layer only, not sent yet ([decision 9](../open-questions.md)) | Recommended, Proposed |
+| `saved` | The first successful autosave, after Membership. Once per application | its own hit | Recommended |
+| `knocked-out` | The first Membership answer is "not a member": the message shows and Next stays disabled. An eligibility rule is a Proposed second reason ([decision 17](../open-questions.md)) | its own hit | Recommended |
+| `resumed` | The first application page after a resume (code accepted, or Continue Application on the welcome-back page) | with the page view | Recommended |
+| `esign-started` | Next on the Signature page, as the visitor leaves for DocuSign | its own hit | Your reports: Signature, possibly ([decision 4](../open-questions.md)) |
+| `submitted` | The receipt page shows its confirmation number. Once per receipt number. Holds every submitted product | with the page view | Your reports: Application Submit, Product |
+| `advisor-confirmation-sent` | The advisor's "Application sent successfully" page ([decision 7](../open-questions.md)) | with the page view | Your reports: Advisor Confirmation |
 
-**Never recorded as Application Activity:** the Begin application click, a Next that fails
-validation (that is a [Form Activity](form-activity.md) error), messages the system shows by
-itself, a screen refreshing, answers on the profile, health, payment or beneficiary pages, and the
-clicks listed under [Interaction](interaction.md).
+## Example
 
-## Example: one application page
+One application page, Coverage:
 
 ```mermaid
 sequenceDiagram
@@ -60,9 +76,48 @@ sequenceDiagram
   Note over DL,AA: data layer only
 ```
 
+The step travels with the page view. Each product action is its own hit when it happens. The
+completed step stays in the data layer for now.
+
+## Javascript code
+
+```js
+window.appEventData = window.appEventData || [];
+window.appEventData.push({
+  "event": "Application Activity",
+  "application": {
+    "action": "<action>",
+    "channel": "<channel>",
+    "step": {
+      "name": "<stepName>",
+      "group": "<stepGroup>",
+      "number": "<stepNumber>",
+      "repeat": "<stepRepeat>"
+    },
+    "receiptId": "<receiptId>",
+    "knockoutReason": "<knockoutReason>",
+    "product": [
+      {
+        "productInfo": {
+          "productID": "<productID>",
+          "name": "<productName>",
+          "category": "<productCategory>",
+          "underwritingClass": "<underwritingClass>"
+        },
+        "quantity": "<quantity>",
+        "quickDecisionEligible": "<quickDecisionEligible>"
+      }
+    ]
+  }
+});
+```
+
+## Populated example
+
 The receipt page, two products submitted:
 
 ```js
+window.appEventData = window.appEventData || [];
 window.appEventData.push({
   "event": "Application Activity",
   "application": {
@@ -102,55 +157,28 @@ window.appEventData.push({
 });
 ```
 
-The Eligibility step, before any coverage is chosen (on later steps, `product` holds the cart at that moment):
-
-```js
-window.appEventData.push({
-  "event": "Application Activity",
-  "application": {
-    "action": "step-viewed",
-    "channel": "self-service",
-    "step": {
-      "name": "eligibility",
-      "group": "getting-started",
-      "number": 2,
-      "repeat": false
-    },
-    "receiptId": null,
-    "knockoutReason": null,
-    "product": []
-  }
-});
-```
-
-## Properties
+## Variable definitions
 
 All details are sent every time; a detail that does not apply is `null`, and `product` is `[]`
 when no product is involved.
 
-| Property | Required | What it holds | Values |
+| Path | Type | Description | Example |
 |---|---|---|---|
-| `application.action` | yes | What happened (tables above) | `products-viewed`, `started`, ... |
-| `application.channel` | yes | Who is completing the application | `self-service`, `advisor-assisted` |
-| `application.step.name` | on step actions | The application page | `membership`, `eligibility`, `coverage`, `beneficiary`, `contact`, `profile`, `review`, the health pages, `payment`, `docusign` |
-| `application.step.group` | with a step | The progress stage | `getting-started`, `coverage-options`, `profile`, `application-review`, `esign-submit` |
-| `application.step.number` | with a step | The step's position in this application's flow | `1`, `2`, `3` ... |
-| `application.step.repeat` | with a step | `true` when this step was already viewed for this application in this visit | `true`, `false` |
-| `application.receiptId` | on submitted | The confirmation number on the receipt ([decision 15](../open-questions.md)) | `APP-12345678` |
-| `application.knockoutReason` | on knocked out | Why the applicant was stopped | `not-member`; `eligibility-not-met` (Proposed) |
-| `application.product` | yes | The products this event is about. See [Products](../reference/products.md) | a list, or `[]` |
-
-## Key rules
-
-1. **Recorded when the result happens, not on the click**: products viewed when the results
-   arrive, submitted when the receipt shows.
-2. **A reload never repeats a once-only action**: started and saved are remembered for the
-   application, and submitted for the receipt number.
-3. **Step views count every view**, revisits included, marked as a repeat. **Proposed**: Eligibility,
-   Coverage and Preview in your reports then count views, not applicants.
-4. **Signing at DocuSign cannot be measured**; the receipt is the only sign that it happened
-   ([decision 18](../open-questions.md)).
-5. **No amounts, premiums or answers**, ever. See [Privacy](../privacy.md).
+| `application.action` | string | Required. For your reports. What happened ([Actions](#actions)) | `products-viewed`, `started`, `submitted` |
+| `application.channel` | string | Required. Recommended. Who is completing the application | `self-service`, `advisor-assisted` |
+| `application.step.name` | string or null | Required on step actions. For your reports. The application page | `membership`, `eligibility`, `coverage`, `review`, `payment`, `docusign` |
+| `application.step.group` | string or null | Required with a step. Recommended. The progress stage | `getting-started`, `coverage-options`, `profile`, `application-review`, `esign-submit` |
+| `application.step.number` | integer or null | Required with a step. Recommended. The step's position in this application's flow | `1`, `2`, `3` |
+| `application.step.repeat` | boolean or null | Required with a step. Recommended. `true` when this step was already viewed for this application in this visit | `true`, `false` |
+| `application.receiptId` | string or null | Required on `submitted`. For your reports: counts each application once ([decision 15](../open-questions.md)) | `APP-12345678` |
+| `application.knockoutReason` | string or null | Required on `knocked-out`. Recommended. Why the applicant was stopped | `not-member`; `eligibility-not-met` (Proposed) |
+| `application.product` | array | Required. For your reports. The products this event is about: the results, the product added or removed, the cart on a step, or everything submitted. See [Products](../reference/products.md) | a list, or `[]` |
+| `application.product[n].productInfo.productID` | string | Required. For your reports. A stable product id. Proposed: the G-number ([decision 14](../open-questions.md)) | `G-4120-1` |
+| `application.product[n].productInfo.name` | string | Required. Recommended. The product name as configured | `Group Term Life` |
+| `application.product[n].productInfo.category` | string | Required. Recommended. The product category | `term-life`, `disability` |
+| `application.product[n].productInfo.underwritingClass` | string or null | Required. Recommended. The product's underwriting class | `si`, `gi` |
+| `application.product[n].quantity` | integer | Required. Recommended. Always `1`: it never counts people | `1` |
+| `application.product[n].quickDecisionEligible` | boolean | Required. Recommended. Whether the product offers a quick decision | `true`, `false` |
 
 ## How to check it
 
