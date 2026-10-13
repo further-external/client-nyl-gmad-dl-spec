@@ -70,7 +70,7 @@ flowchart TB
   end
   subgraph AD["Advisor-assisted"]
     direction LR
-    A1["Advisor login<br/>Form Activity:<br/>advisor login form"] --> A2["Application pages<br/>the same events as<br/>self-service"] --> A3["Confirmation sent<br/>on view: advisor<br/>confirmation sent"] --> A4["Applicant review<br/>on view: step viewed,<br/>each page, no started"]
+    A1["Advisor login<br/>Login Activity,<br/>plus the login form"] --> A2["Application pages<br/>the same events as<br/>self-service"] --> A3["Confirmation sent<br/>on view: advisor<br/>confirmation sent"] --> A4["Applicant review<br/>on view: step viewed,<br/>each page, no started"]
   end
   KO ~~~ RC ~~~ WB ~~~ AD
 ```

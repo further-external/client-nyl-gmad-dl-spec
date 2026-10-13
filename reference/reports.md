@@ -14,7 +14,7 @@ want to answer later.
 
 | Component | Report | Fed by |
 |---|---|---|
-| Login success (event2) | both | **Needs your decision** ([decision 3](../open-questions.md)): consumers do not log in on the new portal. Candidate: a successful advisor login ([Form Activity](../events/form-activity.md) `succeeded`) |
+| Login success (event2) | both | **Needs your decision** ([decision 3](../open-questions.md)): consumers do not log in on the new portal. Candidate: [Login Activity](../events/login-activity.md) `succeeded`, for advisor logins, consumer resume checks, or both |
 | Form Start (event12) | both | [Application Activity](../events/application-activity.md) `started`, once per application |
 | Eligibility (event16) | both | Application Activity `step-viewed` on Eligibility, every view. **Proposed** |
 | Coverage (event19) | both | Application Activity `step-viewed` on Coverage, every view. **Proposed** |

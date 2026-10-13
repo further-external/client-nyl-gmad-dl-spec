@@ -17,7 +17,16 @@ event and every detail in this specification.
 - marital status or gender;
 - household make-up: whether a spouse or child is added, or how many people a product covers;
 - error message text, which can repeat what was entered;
-- the visitor's IP address.
+- the visitor's IP address;
+- any identifier of the person: name, email, phone, customer or policy number, or a scrambled
+  version of one.
+
+## One proposed exception
+
+A **proposed anonymous id** (`user.id`, `login.id`) for a logged-in advisor or a verified consumer,
+issued by New York Life's own systems and never derived from a name, email or number. It stays
+empty until New York Life confirms what the current portal passes and approves it
+([decision 20](open-questions.md)).
 
 ## How the design keeps it that way
 

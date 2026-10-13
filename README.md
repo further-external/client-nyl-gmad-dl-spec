@@ -10,7 +10,7 @@ It is written for two readers:
   then [How it works](how-it-works.md), [Privacy](privacy.md) and the
   [decisions we need from you](open-questions.md).
 - **Developers**, who build it. Read [How it works](how-it-works.md), then the
-  [six event pages](#the-six-events) and the [reference pages](#reference).
+  [seven event pages](#the-seven-events) and the [reference pages](#reference).
 
 ## In one minute
 
@@ -20,7 +20,7 @@ It is written for two readers:
   messages go into a shared list on the page called the **data layer** (`window.appEventData`).
 - **Adobe Launch, the tag manager, reads those events** and sends them to Adobe Analytics. The site
   never talks to Adobe directly, so the tracking setup can change without changing the site.
-- **Six events cover the whole portal.** Each has its own page with examples.
+- **Seven events cover the whole portal.** Each has its own page with examples.
 - **Nothing a person types is ever recorded**: no names, dates of birth, ZIP codes, health answers
   or payment details. Only the names of fields that were completed, never what was entered. See
   [Privacy](privacy.md).
@@ -51,7 +51,7 @@ flowchart LR
 Every page view, including each step of the single-page application, follows the same sequence.
 [How it works](how-it-works.md) shows it, along with which event fires where.
 
-## The six events
+## The seven events
 
 | Event | What it records | Page |
 |---|---|---|
@@ -59,7 +59,8 @@ Every page view, including each step of the single-page application, follows the
 | **User Detected** | Whether the visitor is a consumer or an advisor, and whether their identity was checked | [events/user-detected.md](events/user-detected.md) |
 | **Page Load Completed** | The page view is complete and can be sent | [events/page-load-completed.md](events/page-load-completed.md) |
 | **Interaction** | A click on a tracked link or button: contact, download, print, a window opening or closing, and the element clicked | [events/interaction.md](events/interaction.md) |
-| **Form Activity** | How a form is used: shown, fields completed, errors | [events/form-activity.md](events/form-activity.md) |
+| **Form Activity** | How a form is used: shown, steps, fields completed, errors | [events/form-activity.md](events/form-activity.md) |
+| **Login Activity** | An identity check: the advisor login and the consumer's resume code. Started, succeeded, failed, logged out | [events/login-activity.md](events/login-activity.md) |
 | **Application Activity** | Progress through the quote and the application, from the first quote to the receipt | [events/application-activity.md](events/application-activity.md) |
 
 ## Reference

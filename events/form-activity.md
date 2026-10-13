@@ -1,27 +1,32 @@
 # Form Activity
 
-**Event name:** `Form Activity` · Recommended; a successful advisor login may feed your reports ([decision 3](../open-questions.md))
+**Event name:** `Form Activity` · Recommended
 
 [Back to the overview](../README.md)
 
 ## What it answers
 
-- How many people see a form, start it, and complete it.
-- Where forms fail: which step and which field cause errors, and why (a missing field, a wrong
-  code), never what was typed.
-- How many consumers resume an application, and how many advisors log in.
+- How many people see each form, and how far they get through its steps.
+- Where forms fail: which step and which field cause errors, and why (a missing or badly
+  formatted field), never what was typed.
 - How the instant quote panel is used on the associations that show it.
+- Starts and outcomes are not here: they are progress ([Application Activity](application-activity.md))
+  or a login ([Login Activity](login-activity.md)).
 
 ## When to fire it
 
-- **Fire this event when one of the four forms below changes state:** it is shown, a step is shown,
-  a field is first used or completed, a submit is blocked, or the server accepts the form.
+- **Fire this event when one of the four forms below is used:** it is shown, a step is shown, a
+  field is completed, or a submit is blocked.
 - **Report field names only**, from the [form fields list](../reference/form-fields.md). Never what
   was typed, and never error message text.
-- **For the instant quote panel and the application, fire only `viewed` (panel only),
-  `field-completed` and `error`.** Their start and their result are progress, recorded by
-  [Application Activity](application-activity.md); nothing is counted twice
+- **Never fire `started` or `succeeded` in this version.** Every form's start and result is a
+  milestone: progress in the quote or the application is
+  [Application Activity](application-activity.md), and a login or resume check is
+  [Login Activity](login-activity.md). Nothing is counted twice
   ([the rule](../how-it-works.md#which-event-fires-where-the-two-landing-experiences)).
+- **On the login and resume forms, `error` is only for problems caught before anything is sent**
+  (a field empty or badly formatted). A wrong code or wrong credentials rejected by the server is
+  Login Activity `failed`.
 - **Do not fire it for:** the quote drawer (Application Activity only), the Needs Calculator (it has
   no submit), Chat now and Schedule a call (Interaction), Resend code (Interaction), a field the
   system fills by itself, or focus on a field without a change.
@@ -35,18 +40,18 @@
 | `form.action` | Fire it when | With the page view or its own hit | Sent to Adobe |
 |---|---|---|---|
 | `viewed` | The form is shown | with the page view | yes |
-| `started` | The first input in any field of the form | its own hit | yes |
+| `started` | Reserved for future forms; not used in this version | its own hit | yes |
 | `step-viewed` | A step of the resume form is shown | with the page view | yes |
 | `field-completed` | A listed field is completed: its first change, then the visitor moves on. Once per field | data layer only | **not yet** ([decision 9](../open-questions.md)) |
-| `error` | A submit is blocked by validation or rejected by the server. One per attempt, not per field | its own hit | yes |
-| `succeeded` | The server accepts the form: the resume code is verified, or the advisor login is accepted | its own hit | yes |
+| `error` | A submit is blocked by validation, or rejected by the server on the quote or the application. One per attempt, not per field | its own hit | yes |
+| `succeeded` | Reserved for future forms; not used in this version | its own hit | yes |
 
 **Which form records which action:**
 
 | Form (`form.name`) | Where | `viewed` | `started` | `step-viewed` | `field-completed` | `error` | `succeeded` |
 |---|---|---|---|---|---|---|---|
-| `resume` | The three resume pages: email, method, code | yes | yes | yes | yes | yes | yes |
-| `advisor-login` | The advisor login page | yes | yes | no (one step) | yes | yes | yes |
+| `resume` | The three resume pages: email, method, code | yes | no: Login Activity `started` | yes | yes | before sending only; a rejected code is Login Activity `failed` | no: Login Activity `succeeded` |
+| `advisor-login` | The advisor login page | yes | no: Login Activity `started` | no (one step) | yes | before sending only; rejected credentials are Login Activity `failed` | no: Login Activity `succeeded` |
 | `instant-quote` | The instant quote panel on the landing page, on the associations that show it | yes | no: Application Activity `quote-started` | no | yes | yes | no: Application Activity `products-viewed` |
 | `application` | Each application page, Membership to Payment | no: Application Activity `step-viewed` | no: Application Activity `started` | no | yes | yes | no: Application Activity `submitted` |
 
@@ -93,18 +98,18 @@ sequenceDiagram
     UI->>DL: Page Load Completed
     DL->>AA: page view
   end
-  UI->>DL: Form Activity started
+  UI->>DL: Login Activity started
   DL->>AA: separate hit
   rect rgba(80,140,255,0.12)
     Note over UI,AA: method step, then code step
     UI->>DL: Page Load Started, User Detected, step viewed, Page Load Completed
     DL->>AA: a page view each
   end
-  opt the code is wrong
-    UI->>DL: Form Activity error (code-incorrect)
+  opt the server rejects the code
+    UI->>DL: Login Activity failed (code-incorrect)
     DL->>AA: separate hit
   end
-  UI->>DL: Form Activity succeeded
+  UI->>DL: Login Activity succeeded
   DL->>AA: separate hit
   rect rgba(80,140,255,0.12)
     Note over UI,AA: first restored application page
@@ -144,7 +149,7 @@ window.appEventData.push({
 
 ## Populated example
 
-A wrong code on the resume code step:
+The resume email step, submitted with the email left empty:
 
 ```js
 window.appEventData = window.appEventData || [];
@@ -155,17 +160,17 @@ window.appEventData.push({
     "name": "resume",
     "category": "resume",
     "step": {
-      "name": "code",
-      "number": 3
+      "name": "email",
+      "number": 1
     },
     "field": {
       "name": null,
       "section": null
     },
     "error": {
-      "type": "submission",
-      "code": "code-incorrect",
-      "field": "verification-code"
+      "type": "validation",
+      "code": "required-missing",
+      "field": "email"
     }
   }
 });
@@ -177,7 +182,7 @@ All details are sent every time; a detail that does not apply is `null`.
 
 | Path | Type | Description | Example |
 |---|---|---|---|
-| `form.action` | string | Required. What happened ([Actions](#actions)) | `viewed`, `started`, `step-viewed`, `field-completed`, `error`, `succeeded` |
+| `form.action` | string | Required. What happened ([Actions](#actions)) | `viewed`, `step-viewed`, `field-completed`, `error`; `started` and `succeeded` reserved |
 | `form.name` | string | Required. Which form, by a fixed id | `resume`, `advisor-login`, `instant-quote`, `application` |
 | `form.category` | string | Required. The kind of form | `resume`, `login`, `quote`, `application` |
 | `form.step.name` | string or null | Required for the resume form and the application. The step or application page; empty for the one-step forms | `email`, `method`, `code`; `membership`, `eligibility` |
@@ -185,13 +190,15 @@ All details are sent every time; a detail that does not apply is `null`.
 | `form.field.name` | string or null | Required on `field-completed`. **The field's name, never its value**, from the [form fields list](../reference/form-fields.md) ([decision 8](../open-questions.md)) | `zip-code`, `email` |
 | `form.field.section` | string or null | Empty in this version | `null` |
 | `form.error.type` | string or null | Required on `error`. What kind of error. Empty on the health pages, where it could reveal an answer | `validation`, `submission`, `system` |
-| `form.error.code` | string or null | Required on `error`. The reason, from a fixed list, never the message text ([decision 19](../open-questions.md)). Empty on the health pages | `required-missing`, `invalid-format`, `code-incorrect`, `code-expired`, `no-match`, `service-unavailable` |
+| `form.error.code` | string or null | Required on `error`. The reason, from a fixed list, never the message text ([decision 19](../open-questions.md)). Empty on the health pages | `required-missing`, `invalid-format`, `service-unavailable` |
 | `form.error.field` | string or null | On `error`, when the first field in error is listed. Its name only. Always empty on Eligibility, so it cannot reveal that a spouse or child was added | `first-name`, `verification-code` |
 
 ## How to check it
 
-1. Resume with test details: viewed, step viewed for each step, started, succeeded.
-2. Enter a wrong code: one error, with `code-incorrect`.
+1. Resume with test details: viewed, then step viewed for each step; no Form Activity `started`
+   or `succeeded` (those are [Login Activity](login-activity.md)).
+2. Submit the email step empty: one error, with `required-missing`. A wrong code is a Login
+   Activity `failed`, never a Form Activity error.
 3. On an association with the instant quote panel: `viewed` with the landing page view, then
    Application Activity "quote started" on the first input, never Form Activity "started".
 4. Search the browser console output for the test email you entered: it must not be found.

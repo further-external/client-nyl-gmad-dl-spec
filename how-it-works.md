@@ -63,11 +63,13 @@ The landing page comes in two versions, depending on the association's configura
 - **Application Activity records progress** through the quote and the application: a quote
   started, products viewed, a product added, the application started, each step, the submission.
   It is the same on every experience.
-- **Form Activity records how a form is used** (shown, fields completed, errors), wherever a form
-  exists.
-- **When a form is part of the quote or the application, progress wins.** Its first input is
-  recorded as "quote started" or "application started", and a successful submit as "products
-  viewed" or the next step. Nothing is counted twice.
+- **Login Activity records identity checks:** the advisor login and the consumer's resume code.
+- **Form Activity records how a form is used** (shown, steps, fields completed, errors), wherever
+  a form exists.
+- **When a form is part of the quote, the application or a login, the milestone wins.** Its first
+  input is recorded as "quote started", "application started" or "login started", and a
+  successful submit as "products viewed", the next step or "login succeeded". Nothing is counted
+  twice.
 
 ```mermaid
 flowchart TD
@@ -84,18 +86,19 @@ flowchart TD
 | Landing page **with** the instant quote panel | quote started (first input), products viewed (results), product added | viewed (the panel is shown), field completed, error |
 | Landing page **without** it, and the quote drawer | quote started, products viewed, product added | none: the drawer is not a form |
 | Application pages, Membership to Payment | step viewed, started, saved, step completed, product changes, signature started, submitted | field completed and error only |
-| Resume pages and the advisor login | resumed, on the first page after a successful resume | every action of those two forms |
+| Resume pages and the advisor login | resumed, on the first page after a successful resume | viewed, step viewed, field completed, error; the login itself is Login Activity (started, succeeded, failed) |
 
 ## One action, one event
 
-A single thing the visitor does produces at most one of Interaction, Form Activity or Application
-Activity. Take the first that applies:
+A single thing the visitor does produces at most one of Interaction, Form Activity, Login
+Activity or Application Activity. Take the first that applies:
 
 1. **Is the result a step of the quote or the application?** Use Application Activity, when the
    result happens, not on the click.
-2. **Is it a change in how a form is used?** Use Form Activity.
-3. **Is it a click on a tracked control?** Use Interaction.
-4. **Otherwise,** add nothing.
+2. **Is it a step of a login or resume check?** Use Login Activity.
+3. **Is it a change in how a form is used?** Use Form Activity.
+4. **Is it a click on a tracked control?** Use Interaction.
+5. **Otherwise,** add nothing.
 
 Messages the system shows by itself ("Progress saved", "Coverage added", the cookie banner) add
 nothing.
@@ -112,7 +115,9 @@ nothing.
 | Application PDF on the receipt | Interaction: download |
 | Chat now, Schedule a call, a phone or email link | Interaction: contact |
 | Next on the signature page | Application Activity: signature started |
-| Verification code accepted when resuming | Form Activity: succeeded |
+| Verification code accepted when resuming | Login Activity: succeeded |
+| Wrong code, or wrong advisor credentials | Login Activity: failed |
+| Advisor login accepted | Login Activity: succeeded |
 
 ## What every hit carries
 

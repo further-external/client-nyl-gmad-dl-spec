@@ -42,7 +42,14 @@ shows duplicate events that do not happen in production.
 8. On the default experience: the landing page view carries no Form Activity; the quote drawer
    records "quote started", "products viewed" and "product added".
 
+## Logins
+
+9. On the advisor login and the resume pages: the first input records Login Activity "started";
+   an empty field records one Form Activity error; a wrong code or wrong credentials records one
+   Login Activity "failed"; success records one "succeeded", and the next page shows the new
+   login status. `login.id` and `user.id` are empty.
+
 ## Consent
 
-9. Repeat steps 1 to 5 with cookies accepted and with cookies declined. The data layer is the same
+10. Repeat steps 1 to 5 with cookies accepted and with cookies declined. The data layer is the same
    in both; only what Adobe receives differs.
