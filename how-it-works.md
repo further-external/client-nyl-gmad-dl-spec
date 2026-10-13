@@ -60,9 +60,10 @@ The landing page comes in two versions, depending on the association's configura
 - **without it** (the default design), where quoting happens in the quote drawer.
 
 **One rule covers both:**
-- **Application Activity records progress** through the quote and the application: a quote
-  started, products viewed, a product added, the application started, each step, the submission.
-  It is the same on every experience.
+- **Application Start, Application Activity and Application Complete record progress** through
+  the quote and the application: the application started (Start); a quote started, products
+  viewed, a product added, each step (Activity); the submission (Complete). The same on every
+  experience.
 - **Login Activity records identity checks:** the advisor login and the consumer's resume code.
 - **Form Activity records how a form is used** (shown, steps, fields completed, errors), wherever
   a form exists.
@@ -85,7 +86,7 @@ flowchart TD
 |---|---|---|
 | Landing page **with** the instant quote panel | quote started (first input), products viewed (results), product added | viewed (the panel is shown), field completed, error |
 | Landing page **without** it, and the quote drawer | quote started, products viewed, product added | none: the drawer is not a form |
-| Application pages, Membership to Payment | step viewed, started, saved, step completed, product changes, signature started, submitted | field completed and error only |
+| Application pages, Membership to Payment | Application Start (first input on Membership); Activity: step viewed, saved, step completed, product changes, signature started; Application Complete on the receipt | field completed and error only |
 | Resume pages and the advisor login | resumed, on the first page after a successful resume | viewed, step viewed, field completed, error; the login itself is Login Activity (started, succeeded, failed) |
 
 ## One action, one event
@@ -106,7 +107,7 @@ nothing.
 | What the visitor does | What is recorded |
 |---|---|
 | Begin application | Nothing on the click; the next page records the step |
-| First answer on the Membership page | Application Activity: started (or knocked out, if the answer is "not a member") |
+| First answer on the Membership page | Application Start (or Application Activity: knocked out, if the answer is "not a member") |
 | Next on a step, and it passes validation | Nothing is sent on the click; the next page records the step |
 | Next on a step, and it fails validation | Form Activity: error |
 | First input in the instant quote panel | Application Activity: quote started |
@@ -115,6 +116,7 @@ nothing.
 | Application PDF on the receipt | Interaction: download |
 | Chat now, Schedule a call, a phone or email link | Interaction: contact |
 | Next on the signature page | Application Activity: signature started |
+| The receipt page shows its confirmation number | Application Complete, once per receipt number |
 | Verification code accepted when resuming | Login Activity: succeeded |
 | Wrong code, or wrong advisor credentials | Login Activity: failed |
 | Advisor login accepted | Login Activity: succeeded |

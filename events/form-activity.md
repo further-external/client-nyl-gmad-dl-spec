@@ -31,7 +31,7 @@
   no submit), Chat now and Schedule a call (Interaction), Resend code (Interaction), a field the
   system fills by itself, or focus on a field without a change.
 - **A change that records progress records nothing else:** the first Membership answer is
-  Application Activity "started", not also "field completed".
+  Application Start, not also "field completed".
 
 ## Actions
 
@@ -53,7 +53,7 @@
 | `resume` | The three resume pages: email, method, code | yes | no: Login Activity `started` | yes | yes | before sending only; a rejected code is Login Activity `failed` | no: Login Activity `succeeded` |
 | `advisor-login` | The advisor login page | yes | no: Login Activity `started` | no (one step) | yes | before sending only; rejected credentials are Login Activity `failed` | no: Login Activity `succeeded` |
 | `instant-quote` | The instant quote panel on the landing page, on the associations that show it | yes | no: Application Activity `quote-started` | no | yes | yes | no: Application Activity `products-viewed` |
-| `application` | Each application page, Membership to Payment | no: Application Activity `step-viewed` | no: Application Activity `started` | no | yes | yes | no: Application Activity `submitted` |
+| `application` | Each application page, Membership to Payment | no: Application Activity `step-viewed` | no: Application Start | no | yes | yes | no: Application Complete |
 
 ## Example
 

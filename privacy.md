@@ -13,13 +13,18 @@ event and every detail in this specification.
 - health answers, height, weight, tobacco use;
 - bank, card or payment details;
 - income or debt, including what is entered in the Needs Calculator;
-- benefit amounts, premiums or estimated costs;
 - marital status or gender;
 - household make-up: whether a spouse or child is added, or how many people a product covers;
 - error message text, which can repeat what was entered;
 - the visitor's IP address;
 - any identifier of the person: name, email, phone, customer or policy number, or a scrambled
   version of one.
+
+## Product details that are recorded
+
+A product's **price** and the **benefit amount** selected for it describe the product, not the
+person, and are recorded with the product (agreed at the October 13 review). They are never
+combined with anything that identifies the applicant.
 
 ## One proposed exception
 

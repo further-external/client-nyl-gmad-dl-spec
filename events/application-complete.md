@@ -7,14 +7,14 @@
 > **Relationship to [Application Activity](application-activity.md).** Application Complete is a
 > dedicated milestone that marks a submitted application. The detailed step-by-step journey stays
 > on Application Activity; this event is the **back bookend** for completion rate, and the one
-> place a proper Adobe **purchase** is recorded — with the submitted products and their price on
+> place a proper Adobe **purchase** is recorded: with the submitted products and their price on
 > the product string.
 
 ## What it answers
 
-- How many applications are submitted — the numerator for every completion rate.
+- How many applications are submitted: the numerator for every completion rate.
 - The submit rate from start, by channel and association, over time.
-- Which products are submitted, in what mix, and at what price — on the product string per product.
+- Which products are submitted, in what mix, and at what price: on the product string per product.
 - Revenue and average order value, by product and channel.
 - Advisor vs. self-service completion.
 
@@ -26,10 +26,13 @@ The whole journey, page by page, is on [The application journey](../application-
 - **Fire it with the page view** (between User Detected and Page Load Completed), so it travels
   with the receipt page view.
 - **Fire it on every experience the same way**, with or without the instant quote panel.
-- **Never repeat it on a reload of the receipt.** Remember the submit against `receiptId` — one
+- **Never repeat it on a reload of the receipt.** Remember the submit against `receiptId`: one
   submit per `receiptId`.
 - **Do not fire it for:** an e-sign start, a docusign step, or an advisor confirmation (that is its
   own event).
+
+**Feeds your reports:** Application Submit (event77), counted once per `receiptId`. The purchase,
+orders and revenue are Recommended, beyond your two reports.
 
 ## What a purchase needs in Adobe
 
@@ -39,15 +42,15 @@ cover each of these:
 | Adobe needs | Source in this event | Why it matters |
 |---|---|---|
 | The `purchase` event | fired by this event | Marks the conversion; drives Orders |
-| `purchaseID` (order id) | `application.receiptId` | Deduplicates the order — a receipt reload must not double-count Orders or revenue |
+| `purchaseID` (order id) | `application.receiptId` | Deduplicates the order: a receipt reload must not double-count Orders or revenue |
 | `products` string | `application.product[]` | One entry per submitted product, each carrying its price |
 | Revenue | `productInfo.price.sellingPrice` | Goes in the product-string price slot; Adobe sums it across products (quantity is always `1`) |
 | Base price | `productInfo.price.basePrice` | Carried as a separate currency event in product syntax, so base-vs-selling delta is reportable |
 | `currencyCode` | USD assumed | Set only if a portal ever transacts in another currency |
 | Merchandising | `category`, `underwritingClass`, `quickDecisionEligible` | Let Orders and revenue break down by product attribute |
 
-> **Scope note.** `sellingPrice` and `basePrice` describe the **product**, not the applicant — no
-> PII or personal answers are sent — so they are in scope for this event. See [Privacy](../privacy.md).
+> **Scope note.** `sellingPrice` and `basePrice` describe the **product**, not the applicant. No
+> PII or personal answers are sent, so they are in scope for this event. See [Privacy](../privacy.md).
 
 ## Example
 
@@ -63,7 +66,7 @@ sequenceDiagram
     UI->>DL: Page Load Started, User Detected
     UI->>DL: Application Complete (receiptId, products[])
     UI->>DL: Page Load Completed
-    DL->>AA: page view — purchase, once per receiptId, products + price carried
+    DL->>AA: page view: purchase, once per receiptId, products + price carried
   end
 ```
 
@@ -87,6 +90,7 @@ window.appEventData.push({
           "name": "<productName>",
           "category": "<productCategory>",
           "underwritingClass": "<underwritingClass>",
+          "benefitAmount": "<benefitAmount>",
           "price": {
             "basePrice": "<basePrice>",
             "sellingPrice": "<sellingPrice>"
@@ -119,8 +123,9 @@ window.appEventData.push({
           "name": "Group Term Life",
           "category": "term-life",
           "underwritingClass": "si",
+          "benefitAmount": 100000,
           "price": {
-            "basePrice": 45.00,
+            "basePrice": 45.0,
             "sellingPrice": 39.99
           }
         },
@@ -133,9 +138,10 @@ window.appEventData.push({
           "name": "Group Disability Income",
           "category": "disability",
           "underwritingClass": "di",
+          "benefitAmount": 50000,
           "price": {
-            "basePrice": 60.00,
-            "sellingPrice": 52.50
+            "basePrice": 60.0,
+            "sellingPrice": 52.5
           }
         },
         "quantity": 1,
@@ -160,6 +166,7 @@ All details are sent every time; a detail that does not apply is `null`.
 | `application.product[n].productInfo.name` | string | Recommended. Product name as configured | `Group Term Life` |
 | `application.product[n].productInfo.category` | string | Recommended. Product category; merchandising candidate | `term-life` |
 | `application.product[n].productInfo.underwritingClass` | string or null | Recommended. Underwriting class; merchandising candidate | `si`, `gi` |
+| `application.product[n].productInfo.benefitAmount` | integer or null | Recommended. The selected coverage / benefit amount for this product: product information, the same as on Application Activity | `100000` |
 | `application.product[n].productInfo.price.basePrice` | number | Recommended. The product's base price; carried as a currency event | `45.00` |
 | `application.product[n].productInfo.price.sellingPrice` | number | Required for revenue. The price charged; the product-string price slot | `39.99` |
 | `application.product[n].quantity` | integer | Recommended. Always `1`: it never counts people | `1` |
@@ -169,7 +176,7 @@ All details are sent every time; a detail that does not apply is `null`.
 
 1. Submit one application with test details. **Application Complete** fires once, with the receipt
    page view, and records a purchase against `receiptId`.
-2. Reload the receipt page: **no second purchase** — Orders and revenue do not move.
+2. Reload the receipt page: **no second purchase**: Orders and revenue do not move.
 3. Submit a two-product application: both products appear on the product string, revenue equals the
    sum of their `sellingPrice`, and the purchase is credited to **each** product.
 4. Orders and revenue break down by `category`, `underwritingClass`, and `quickDecisionEligible`.

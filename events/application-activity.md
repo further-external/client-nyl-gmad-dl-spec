@@ -6,7 +6,7 @@
 
 ## What it answers
 
-- How many visitors see products and add them to the cart.
+- How many visitors start a quote, see products and add them to the cart.
 - How many reach each application step, and where they drop off.
 - Which products are viewed, added and removed.
 - How many are stopped at Membership, how many save, how many resume, how many leave to sign.
@@ -29,7 +29,7 @@ The whole journey, page by page, is on [The application journey](../application-
   [Form Activity](form-activity.md) error), messages the system shows by itself, a screen
   refreshing, answers on the profile, health, payment or beneficiary pages, or the clicks listed
   under [Interaction](interaction.md).
-- **Never send PII or an applicant's answers** — no names, contact details, SSNs, dates of birth,
+- **Never send PII or an applicant's answers**: no names, contact details, SSNs, dates of birth,
   health responses, or personal financial figures. Product-level values (a product's price and the
   selected coverage amount) are product information, not PII, and are sent. See [Privacy](../privacy.md).
 
@@ -39,6 +39,7 @@ The whole journey, page by page, is on [The application journey](../application-
 
 | `application.action` | Fire it when | With the page view or its own hit | Use |
 |---|---|---|---|
+| `quote-started` | The first input in the quote drawer or the instant quote panel. Not when it opens | its own hit | Recommended |
 | `products-viewed` | "See my quote" (drawer or instant quote panel) or "See my coverage options" returns results. Once per search. Holds every product returned | its own hit | Your reports: Product |
 | `product-added` | A product enters the cart after Add or Add coverage. Holds the added product | its own hit | Your reports: Product |
 | `product-removed` | Remove, in the coverage cart. Holds the removed product | its own hit | Recommended |

@@ -11,12 +11,14 @@
 
 ## What it answers
 
-- How many visitors begin an application — the denominator for every downstream completion rate.
+- How many visitors begin an application: the denominator for every downstream completion rate.
 - Where starts come from: self-service vs. advisor-assisted (`channel`), and which association.
 - The start-to-submit conversion rate, paired with [Application Complete](application-complete.md).
 - Whether a page or experience change moved the start rate, over time.
 
 The whole journey, page by page, is on [The application journey](../application-journey.md).
+
+**Feeds your reports:** Form Start (event12), once per application.
 
 ## When to fire it
 
@@ -25,11 +27,11 @@ The whole journey, page by page, is on [The application journey](../application-
 - **Fire it as its own hit.**
 - **Fire it on every experience the same way**, with or without the instant quote panel
   ([the rule](../how-it-works.md#which-event-fires-where-the-two-landing-experiences)).
-- **Never repeat it on a reload or revisit.** Remember the start for the application — one start
+- **Never repeat it on a reload or revisit.** Remember the start for the application: one start
   per application.
 - **Do not fire it for:** the Begin application click, a quote start, or a resumed application
   (that is [Application Activity](application-activity.md) `resumed`).
-- **Never send PII or an applicant's answers** — no names, contact details, SSNs, dates of birth,
+- **Never send PII or an applicant's answers**: no names, contact details, SSNs, dates of birth,
   health responses, or personal financial figures. Product-level values (a product's price and the
   selected coverage amount) are product information, not PII, and are sent. See [Privacy](../privacy.md).
 
@@ -49,7 +51,7 @@ sequenceDiagram
     DL->>AA: page view
   end
   UI->>DL: Application Start (first Membership input)
-  DL->>AA: separate hit — counted once per application
+  DL->>AA: separate hit: counted once per application
 ```
 
 The start is its own hit, fired once, and remembered so a reload cannot count it twice.
@@ -90,7 +92,7 @@ window.appEventData.push({
 ## How to check it
 
 1. Begin one application with test details. **Application Start** fires once, as its own hit, at
-   the first Membership input — not on the Begin application click.
+   the first Membership input, not on the Begin application click.
 2. Reload the Membership page and type again: **no second start**.
 3. The start-to-submit funnel using Application Start and
    [Application Complete](application-complete.md) returns a sane conversion rate.

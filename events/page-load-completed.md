@@ -78,5 +78,5 @@ window.appEventData.push({
 
 1. `appEventData.map(e => e.event)` shows Page Load Started, User Detected, any page events, then
    Page Load Completed, for every page and step.
-2. In the Adobe debugger, each page view is one hit, and the step viewed or submitted travels on
-   it.
+2. In the Adobe debugger, each page view is one hit, and the step viewed or the Application Complete travels
+   on it.
