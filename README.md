@@ -58,12 +58,12 @@ Every page view, including each step of the single-page application, follows the
 | **Page Load Started** | A page view begins: which page, which association, which campaign | [events/page-load-started.md](events/page-load-started.md) |
 | **User Detected** | Whether the visitor is a consumer or an advisor, and whether their identity was checked | [events/user-detected.md](events/user-detected.md) |
 | **Page Load Completed** | The page view is complete and can be sent | [events/page-load-completed.md](events/page-load-completed.md) |
-| **Interaction** | A click on a tracked link or button: contact, download, print, a window opening or closing, and the element clicked | [events/interaction.md](events/interaction.md) |
+| **Click Interaction** | A click on a tracked link or button: contact, download, print, a window opening or closing, and the element clicked | [events/click-interaction.md](events/click-interaction.md) |
 | **Form Activity** | How a form is used: shown, steps, fields completed, errors | [events/form-activity.md](events/form-activity.md) |
 | **Login Activity** | An identity check: the advisor login and the consumer's resume code. Started, succeeded, failed, logged out | [events/login-activity.md](events/login-activity.md) |
-| **Application Start** | The application begins: the first input on the Membership form. Once per application | [events/application-start.md](events/application-start.md) |
+| **Application Started** | The application begins: the first input on the Membership form. Once per application | [events/application-started.md](events/application-started.md) |
 | **Application Activity** | Progress through the quote and the application: quotes, products, each step | [events/application-activity.md](events/application-activity.md) |
-| **Application Complete** | The application is submitted: the receipt, with the submitted products and their price. Once per receipt number | [events/application-complete.md](events/application-complete.md) |
+| **Application Completed** | The application is submitted: the receipt, with the submitted products and their price. Once per receipt number | [events/application-completed.md](events/application-completed.md) |
 
 ## Reference
 
@@ -73,6 +73,8 @@ Every page view, including each step of the single-page application, follows the
 | [The application journey](application-journey.md) | Every step of the application, and the knockout, resume and advisor paths |
 | [Products](reference/products.md) | How the products a visitor sees and chooses are described |
 | [Form fields](reference/form-fields.md) | The only field names a form may report |
+| [Page taxonomy](reference/page-taxonomy.md) | How every page is named, and the names you use today next to the recommended ones |
+| [Click elements](reference/click-elements.md) | Which links and buttons are worth tracking, and how to name them |
 | [Reports](reference/reports.md) | The 41 report components and what feeds each one |
 | [Privacy](privacy.md) | What is never recorded, and how the design keeps it that way |
 | [Checking a build](checking-a-build.md) | How to test the build before it goes live |

@@ -32,7 +32,7 @@ shows duplicate events that do not happen in production.
    - "field completed" and "step completed" send nothing yet;
    - a click on the Privacy Notice or an Application PDF sends exactly one hit.
 6. Reload the Eligibility page and the receipt: the step is recorded again as a repeat;
-   Application Start and Application Complete are not repeated, and orders and revenue do not
+   Application Started and Application Completed are not repeated, and orders and revenue do not
    move (the purchase is deduplicated by the receipt number).
 
 ## Both landing experiences

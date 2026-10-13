@@ -28,7 +28,7 @@
   - a field left empty or badly formatted before anything is sent to the server: that is a
     [Form Activity](form-activity.md) error;
   - Continue Application on the welcome-back page (there is no identity check);
-  - Resend code (an [Interaction](interaction.md)).
+  - Resend code (an [Click Interaction](click-interaction.md)).
 - **The visitor's status changes on the next page, not this one.** The hit that records the
   success still shows the old status; the next page's [User Detected](user-detected.md) shows the
   new one.

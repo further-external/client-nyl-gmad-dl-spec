@@ -15,18 +15,18 @@ want to answer later.
 | Component | Report | Fed by |
 |---|---|---|
 | Login success (event2) | both | **Needs your decision** ([decision 3](../open-questions.md)): consumers do not log in on the new portal. Candidate: [Login Activity](../events/login-activity.md) `succeeded`, for advisor logins, consumer resume checks, or both |
-| Form Start (event12) | both | [Application Start](../events/application-start.md), once per application |
+| Form Start (event12) | both | [Application Started](../events/application-started.md), once per application |
 | Eligibility (event16) | both | Application Activity `step-viewed` on Eligibility, every view. **Proposed** |
 | Coverage (event19) | both | Application Activity `step-viewed` on Coverage, every view. **Proposed** |
-| Contact (event21) | both | **Needs your decision** ([decision 4](../open-questions.md)): the Contact page, or contact clicks ([Interaction](../events/interaction.md) `contact`) |
+| Contact (event21) | both | **Needs your decision** ([decision 4](../open-questions.md)): the Contact page, or contact clicks ([Click Interaction](../events/click-interaction.md) `contact`) |
 | Preview (event22) | MOAA | Application Activity `step-viewed` on Review, every view. **Proposed** |
 | Signature (event39) | both | **Needs your decision** ([decision 4](../open-questions.md)): reaching the Signature page, leaving for DocuSign, or the receipt |
 | Order Page (event44) | both | **Needs your decision** ([decision 4](../open-questions.md)): the Payment page or the receipt; no page is called "order" |
-| Application Submit (event77) | both | [Application Complete](../events/application-complete.md), once per receipt number |
+| Application Submit (event77) | both | [Application Completed](../events/application-completed.md), once per receipt number |
 | Advisor Confirmation (event79) | Executive | Application Activity `advisor-confirmation-sent` ([decision 7](../open-questions.md)) |
 
 **Also recorded, beyond your two reports (Recommended):** orders, revenue and average order value from
-Application Complete, by product and channel.
+Application Completed, by product and channel.
 
 ## Dimensions (9)
 

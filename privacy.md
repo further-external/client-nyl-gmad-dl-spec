@@ -54,7 +54,7 @@ empty until New York Life confirms what the current portal passes and approves i
 **Proposed** settings for the tag build, no site work:
 - **The page address Adobe receives is the cleaned one**, on every hit. The referring address is
   cut to its host and path.
-- **Adobe's automatic link and download tracking is off.** The Interaction event replaces it, so a
+- **Adobe's automatic link and download tracking is off.** The Click Interaction event replaces it, so a
   click is never sent twice with its full address.
 - **Activity Map is off.** It would otherwise send the visible text of every clicked link or
   button.

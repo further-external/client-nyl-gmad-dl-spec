@@ -28,7 +28,7 @@ The whole journey, page by page, is on [The application journey](../application-
 - **Do not fire it for:** the Begin application click, a Next that fails validation (that is a
   [Form Activity](form-activity.md) error), messages the system shows by itself, a screen
   refreshing, answers on the profile, health, payment or beneficiary pages, or the clicks listed
-  under [Interaction](interaction.md).
+  under [Click Interaction](click-interaction.md).
 - **Never send PII or an applicant's answers**: no names, contact details, SSNs, dates of birth,
   health responses, or personal financial figures. Product-level values (a product's price and the
   selected coverage amount) are product information, not PII, and are sent. See [Privacy](../privacy.md).
@@ -180,7 +180,7 @@ when no product is involved.
 |---|---|---|---|
 | `application.action` | string | Required. For your reports. What happened ([Actions](#actions)) | `products-viewed`, `product-added`, `step-viewed` |
 | `application.channel` | string | Required. Recommended. Who is completing the application | `self-service`, `advisor-assisted` |
-| `application.applicationName` | string | Required. For your reports. The application the visitor is completing | `waepa-term-life` |
+| `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
 | `application.step.name` | string or null | Required on step actions. For your reports. The application page | `membership`, `eligibility`, `coverage`, `review`, `payment`, `docusign` |
 | `application.step.group` | string or null | Required with a step. Recommended. The progress stage | `getting-started`, `coverage-options`, `profile`, `application-review`, `esign-submit` |
 | `application.step.number` | integer or null | Required with a step. Recommended. The step's position in this application's flow | `1`, `2`, `3` |

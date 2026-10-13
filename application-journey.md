@@ -5,8 +5,8 @@
 This page follows one self-service application from the first quote to the receipt, then the
 other ways in: knockout, resume and advisor-assisted. All of these are
 [Application Activity](events/application-activity.md) unless marked otherwise; the first
-Membership input is [Application Start](events/application-start.md), and the receipt is
-[Application Complete](events/application-complete.md).
+Membership input is [Application Started](events/application-started.md), and the receipt is
+[Application Completed](events/application-completed.md).
 
 ## Self-service, quote to receipt
 
@@ -16,7 +16,7 @@ actions are separate hits. Dashed boxes appear only when they apply.
 ```mermaid
 flowchart TD
   L["Landing page<br/>on view: Form viewed, only with<br/>the instant quote panel<br/>as the visitor acts:<br/>quote started<br/>products viewed<br/>product added"]
-  M["Membership<br/>on view: step viewed<br/>as the visitor acts:<br/>Application Start"]
+  M["Membership<br/>on view: step viewed<br/>as the visitor acts:<br/>Application Started"]
   KO["knocked out<br/>instead of started<br/>Next stays disabled"]
   E["Eligibility<br/>on view: step viewed<br/>as the visitor acts:<br/>saved (first autosave)"]
   C["Coverage<br/>on view: step viewed<br/>as the visitor acts:<br/>products viewed<br/>product added<br/>product removed, if used"]
@@ -26,7 +26,7 @@ flowchart TD
   PAY["Payment<br/>on view: step viewed"]
   DS["Signature (DocuSign)<br/>on view: step viewed<br/>as the visitor acts:<br/>signature started, on Next"]
   SIGN["Signing at DocuSign<br/>outside the portal<br/>cannot be measured"]
-  RC["Receipt<br/>on view: Application Complete<br/>once per receipt number"]
+  RC["Receipt<br/>on view: Application Completed<br/>once per receipt number"]
 
   L -->|"Begin application<br/>nothing on the click"| M
   M -.->|"first answer<br/>not a member"| KO
@@ -77,7 +77,7 @@ flowchart TB
   KO ~~~ RC ~~~ WB ~~~ AD
 ```
 
-- **Application Start and saved never fire on a resumed application:** it was already started and saved.
+- **Application Started and saved never fire on a resumed application:** it was already started and saved.
 - **Advisor-assisted applications** carry `application.channel: "advisor-assisted"`. Who owns this
   flow, and three details of it, are [decision 7](open-questions.md).
 
@@ -91,7 +91,7 @@ Detected and Page Load Completed.
 | Landing page | PLS, UD, PLC | a page view |
 | Quote drawer | quote started, products viewed, product added | 3 separate hits |
 | Begin application | nothing | none |
-| Membership | PLS, UD, step viewed (1), PLC; then Application Start, and an error if Next fails | a page view; then separate hits |
+| Membership | PLS, UD, step viewed (1), PLC; then Application Started, and an error if Next fails | a page view; then separate hits |
 | Eligibility | PLS, UD, step viewed (2), PLC; then saved | a page view; a hit |
 | Coverage | PLS, UD, step viewed (3), PLC; then products viewed, product added | a page view; 2 hits |
 | Beneficiary | PLS, UD, step viewed (4), PLC; Add Beneficiary opens a window | a page view; a hit |
@@ -100,4 +100,4 @@ Detected and Page Load Completed.
 | Payment | PLS, UD, step viewed, PLC | a page view |
 | Signature | PLS, UD, step viewed, PLC; then signature started | a page view; a hit |
 | DocuSign | nothing: outside the portal | none |
-| Receipt | PLS, UD, Application Complete, PLC; Application PDF if clicked | a page view; a hit |
+| Receipt | PLS, UD, Application Completed, PLC; Application PDF if clicked | a page view; a hit |

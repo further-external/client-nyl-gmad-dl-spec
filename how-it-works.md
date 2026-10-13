@@ -39,7 +39,7 @@ sequenceDiagram
     DL->>AA: one page view, carrying all of the above
   end
   loop As the visitor acts
-    UI->>DL: Interaction, Form Activity or Application Activity
+    UI->>DL: Click Interaction, Form Activity or Application Activity
     DL->>AA: one separate hit for each
   end
 ```
@@ -60,7 +60,7 @@ The landing page comes in two versions, depending on the association's configura
 - **without it** (the default design), where quoting happens in the quote drawer.
 
 **One rule covers both:**
-- **Application Start, Application Activity and Application Complete record progress** through
+- **Application Started, Application Activity and Application Completed record progress** through
   the quote and the application: the application started (Start); a quote started, products
   viewed, a product added, each step (Activity); the submission (Complete). The same on every
   experience.
@@ -86,19 +86,19 @@ flowchart TD
 |---|---|---|
 | Landing page **with** the instant quote panel | quote started (first input), products viewed (results), product added | viewed (the panel is shown), field completed, error |
 | Landing page **without** it, and the quote drawer | quote started, products viewed, product added | none: the drawer is not a form |
-| Application pages, Membership to Payment | Application Start (first input on Membership); Activity: step viewed, saved, step completed, product changes, signature started; Application Complete on the receipt | field completed and error only |
+| Application pages, Membership to Payment | Application Started (first input on Membership); Activity: step viewed, saved, step completed, product changes, signature started; Application Completed on the receipt | field completed and error only |
 | Resume pages and the advisor login | resumed, on the first page after a successful resume | viewed, step viewed, field completed, error; the login itself is Login Activity (started, succeeded, failed) |
 
 ## One action, one event
 
-A single thing the visitor does produces at most one of Interaction, Form Activity, Login
+A single thing the visitor does produces at most one of Click Interaction, Form Activity, Login
 Activity or Application Activity. Take the first that applies:
 
 1. **Is the result a step of the quote or the application?** Use Application Activity, when the
    result happens, not on the click.
 2. **Is it a step of a login or resume check?** Use Login Activity.
 3. **Is it a change in how a form is used?** Use Form Activity.
-4. **Is it a click on a tracked control?** Use Interaction.
+4. **Is it a click on a tracked control?** Use Click Interaction.
 5. **Otherwise,** add nothing.
 
 Messages the system shows by itself ("Progress saved", "Coverage added", the cookie banner) add
@@ -107,16 +107,16 @@ nothing.
 | What the visitor does | What is recorded |
 |---|---|
 | Begin application | Nothing on the click; the next page records the step |
-| First answer on the Membership page | Application Start (or Application Activity: knocked out, if the answer is "not a member") |
+| First answer on the Membership page | Application Started (or Application Activity: knocked out, if the answer is "not a member") |
 | Next on a step, and it passes validation | Nothing is sent on the click; the next page records the step |
 | Next on a step, and it fails validation | Form Activity: error |
 | First input in the instant quote panel | Application Activity: quote started |
 | "Get an instant quote" returns results | Application Activity: products viewed |
-| Edit or Print on the Review page | Interaction: a window opens, or print |
-| Application PDF on the receipt | Interaction: download |
-| Chat now, Schedule a call, a phone or email link | Interaction: contact |
+| Edit or Print on the Review page | Click Interaction: a window opens, or print |
+| Application PDF on the receipt | Click Interaction: download |
+| Chat now, Schedule a call, a phone or email link | Click Interaction: contact |
 | Next on the signature page | Application Activity: signature started |
-| The receipt page shows its confirmation number | Application Complete, once per receipt number |
+| The receipt page shows its confirmation number | Application Completed, once per receipt number |
 | Verification code accepted when resuming | Login Activity: succeeded |
 | Wrong code, or wrong advisor credentials | Login Activity: failed |
 | Advisor login accepted | Login Activity: succeeded |

@@ -1,10 +1,10 @@
-# Application Complete
+# Application Completed
 
-**Event name:** `Application Complete` · Needed for your reports
+**Event name:** `Application Completed` · Needed for your reports
 
 [Back to the overview](../README.md)
 
-> **Relationship to [Application Activity](application-activity.md).** Application Complete is a
+> **Relationship to [Application Activity](application-activity.md).** Application Completed is a
 > dedicated milestone that marks a submitted application. The detailed step-by-step journey stays
 > on Application Activity; this event is the **back bookend** for completion rate, and the one
 > place a proper Adobe **purchase** is recorded: with the submitted products and their price on
@@ -64,7 +64,7 @@ sequenceDiagram
   rect rgba(80,140,255,0.12)
     Note over UI,AA: Receipt page view
     UI->>DL: Page Load Started, User Detected
-    UI->>DL: Application Complete (receiptId, products[])
+    UI->>DL: Application Completed (receiptId, products[])
     UI->>DL: Page Load Completed
     DL->>AA: page view: purchase, once per receiptId, products + price carried
   end
@@ -78,7 +78,7 @@ submitted product and its price onto the product string.
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
-  "event": "Application Complete",
+  "event": "Application Completed",
   "application": {
     "channel": "<channel>",
     "applicationName": "<applicationName>",
@@ -111,7 +111,7 @@ The receipt page, two products submitted:
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
-  "event": "Application Complete",
+  "event": "Application Completed",
   "application": {
     "channel": "self-service",
     "applicationName": "waepa-term-life",
@@ -159,7 +159,7 @@ All details are sent every time; a detail that does not apply is `null`.
 | Path | Type | Description | Example |
 |---|---|---|---|
 | `application.channel` | string | Required. For your reports. Who completed the application | `self-service`, `advisor-assisted` |
-| `application.applicationName` | string | Required. For your reports. The application the visitor completed | `waepa-term-life` |
+| `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
 | `application.receiptId` | string | Required. The order id. Deduplicates the purchase; counts each application once | `APP-12345678` |
 | `application.product` | array | Required. For your reports. Every submitted product; carried on the product string | a list |
 | `application.product[n].productInfo.productID` | string | Required. Stable product id; the product-string identifier | `G-4120-1` |
@@ -174,11 +174,11 @@ All details are sent every time; a detail that does not apply is `null`.
 
 ## How to check it
 
-1. Submit one application with test details. **Application Complete** fires once, with the receipt
+1. Submit one application with test details. **Application Completed** fires once, with the receipt
    page view, and records a purchase against `receiptId`.
 2. Reload the receipt page: **no second purchase**: Orders and revenue do not move.
 3. Submit a two-product application: both products appear on the product string, revenue equals the
    sum of their `sellingPrice`, and the purchase is credited to **each** product.
 4. Orders and revenue break down by `category`, `underwritingClass`, and `quickDecisionEligible`.
-5. The start-to-submit funnel using [Application Start](application-start.md) and Application
+5. The start-to-submit funnel using [Application Started](application-started.md) and Application
    Complete returns a sane conversion rate, and holds up when split by `channel`.

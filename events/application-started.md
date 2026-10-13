@@ -1,10 +1,10 @@
-# Application Start
+# Application Started
 
-**Event name:** `Application Start` · Needed for your reports
+**Event name:** `Application Started` · Needed for your reports
 
 [Back to the overview](../README.md)
 
-> **Relationship to [Application Activity](application-activity.md).** Application Start is a
+> **Relationship to [Application Activity](application-activity.md).** Application Started is a
 > dedicated milestone that marks the moment an application begins. The detailed step-by-step
 > journey stays on Application Activity; this event is the **front bookend** for every completion
 > rate, so "how many applications began" is a clean, deduped metric on its own.
@@ -13,7 +13,7 @@
 
 - How many visitors begin an application: the denominator for every downstream completion rate.
 - Where starts come from: self-service vs. advisor-assisted (`channel`), and which association.
-- The start-to-submit conversion rate, paired with [Application Complete](application-complete.md).
+- The start-to-submit conversion rate, paired with [Application Completed](application-completed.md).
 - Whether a page or experience change moved the start rate, over time.
 
 The whole journey, page by page, is on [The application journey](../application-journey.md).
@@ -50,7 +50,7 @@ sequenceDiagram
     UI->>DL: Page Load Completed
     DL->>AA: page view
   end
-  UI->>DL: Application Start (first Membership input)
+  UI->>DL: Application Started (first Membership input)
   DL->>AA: separate hit: counted once per application
 ```
 
@@ -61,7 +61,7 @@ The start is its own hit, fired once, and remembered so a reload cannot count it
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
-  "event": "Application Start",
+  "event": "Application Started",
   "application": {
     "channel": "<channel>",
     "applicationName": "<applicationName>"
@@ -74,7 +74,7 @@ window.appEventData.push({
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
-  "event": "Application Start",
+  "event": "Application Started",
   "application": {
     "channel": "self-service",
     "applicationName": "waepa-term-life"
@@ -87,12 +87,12 @@ window.appEventData.push({
 | Path | Type | Description | Example |
 |---|---|---|---|
 | `application.channel` | string | Required. For your reports. Who is completing the application | `self-service`, `advisor-assisted` |
-| `application.applicationName` | string | Required. For your reports. The application the visitor is completing | `waepa-term-life` |
+| `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
 
 ## How to check it
 
-1. Begin one application with test details. **Application Start** fires once, as its own hit, at
+1. Begin one application with test details. **Application Started** fires once, as its own hit, at
    the first Membership input, not on the Begin application click.
 2. Reload the Membership page and type again: **no second start**.
-3. The start-to-submit funnel using Application Start and
-   [Application Complete](application-complete.md) returns a sane conversion rate.
+3. The start-to-submit funnel using Application Started and
+   [Application Completed](application-completed.md) returns a sane conversion rate.

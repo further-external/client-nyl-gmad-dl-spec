@@ -1,6 +1,6 @@
-# Interaction
+# Click Interaction
 
-**Event name:** `Interaction` · Recommended; contact clicks may feed your reports ([decision 4](../open-questions.md))
+**Event name:** `Click Interaction` · Recommended; contact clicks may feed your reports ([decision 4](../open-questions.md))
 
 [Back to the overview](../README.md)
 
@@ -16,7 +16,9 @@
 
 - **Fire this event when the visitor clicks a tracked control** ([full list below](#tracked-controls)):
   a mouse click, a tap, or Enter or Space on a focused button or link. One click, one event.
-- **Also fire it when a listed window is closed with the Escape key or by clicking behind it.**
+- **Also fire it when a listed window is closed with the Escape key or by clicking behind it.** These
+  are not strictly clicks, but they stay here so window opens and closes are counted together;
+  `element.type` is `key` or `backdrop`.
 - **Fire it when the click happens**, before the click changes the page or closes the window.
 - **Do not fire it for:**
   - controls whose result is recorded by another event: Begin application, Next and Back, Add
@@ -97,25 +99,25 @@ sequenceDiagram
     DL->>AA: page view
   end
   U->>UI: click Edit
-  UI->>DL: Interaction modal-open, edit-confirmation
+  UI->>DL: Click Interaction modal-open, edit-confirmation
   DL->>AA: separate hit
   U->>UI: click Print
-  UI->>DL: Interaction print, print-review
+  UI->>DL: Click Interaction print, print-review
   DL->>AA: separate hit
   U->>UI: tick the consent checkbox
-  UI->>DL: Form Activity field completed (consent), not Interaction
+  UI->>DL: Form Activity field completed (consent), not Click Interaction
   Note over DL,AA: data layer only
 ```
 
 Each click is its own hit, after the page view. Ticking a checkbox is form use, so it is never an
-Interaction.
+Click Interaction.
 
 ## Javascript code
 
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
-  "event": "Interaction",
+  "event": "Click Interaction",
   "interaction": {
     "type": "<type>",
     "name": "<name>",
@@ -138,7 +140,7 @@ A click on the Privacy Notice in the footer:
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
-  "event": "Interaction",
+  "event": "Click Interaction",
   "interaction": {
     "type": "click",
     "name": "privacy-notice",
@@ -159,7 +161,7 @@ The Escape key closes the coverage cart (no element is clicked, so `element.type
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
-  "event": "Interaction",
+  "event": "Click Interaction",
   "interaction": {
     "type": "modal-close",
     "name": "coverage-cart",
@@ -192,8 +194,8 @@ All details are sent every time; a detail that does not apply is `null`.
 
 ## How to check it
 
-1. Click a few tracked controls: each adds one Interaction with all its details present.
-2. Click into form fields and tick a checkbox: no Interaction.
+1. Click a few tracked controls: each adds one Click Interaction with all its details present.
+2. Click into form fields and tick a checkbox: no Click Interaction.
 3. Click the Privacy Notice: exactly one hit reaches Adobe, and `element.destination` has no `?`
    or `#`. Adobe's own automatic link tracking and Activity Map are turned off, so a click is never
    sent twice.
