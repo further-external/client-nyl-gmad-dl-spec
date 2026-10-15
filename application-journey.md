@@ -15,16 +15,16 @@ actions are separate hits. Dashed boxes appear only when they apply.
 
 ```mermaid
 flowchart TD
-  L["Landing page<br/>on view: Form viewed, only with<br/>the instant quote panel<br/>as the visitor acts:<br/>quote started<br/>products viewed<br/>product added"]
-  M["Membership<br/>on view: step viewed<br/>as the visitor acts:<br/>Application Started"]
+  L["Landing page<br/>as the visitor acts:<br/>quote started<br/>products viewed<br/>product added, on<br/>Apply for coverage"]
+  M["Membership<br/>on view: step started<br/>as the visitor acts:<br/>Application Started"]
   KO["knocked out<br/>instead of started<br/>Next stays disabled"]
-  E["Eligibility<br/>on view: step viewed<br/>as the visitor acts:<br/>saved (first autosave)"]
-  C["Coverage<br/>on view: step viewed<br/>as the visitor acts:<br/>products viewed<br/>product added<br/>product removed, if used"]
-  B["Beneficiary<br/>on view: step viewed"]
-  CPR["Contact, Profile, Review<br/>on view: step viewed,<br/>each page in turn"]
-  H["Health pages<br/>on view: step viewed,<br/>each page in turn"]
-  PAY["Payment<br/>on view: step viewed"]
-  DS["Signature (DocuSign)<br/>on view: step viewed<br/>as the visitor acts:<br/>signature started, on Next"]
+  E["Eligibility<br/>on view: step started<br/>as the visitor acts:<br/>saved (first autosave)"]
+  C["Coverage<br/>on view: step started<br/>as the visitor acts:<br/>products viewed<br/>product removed, if confirmed<br/>on Next: product added"]
+  B["Beneficiary<br/>on view: step started"]
+  CPR["Contact, Profile, Review<br/>on view: step started,<br/>each page in turn"]
+  H["Health pages<br/>on view: step started,<br/>each page in turn"]
+  PAY["Payment<br/>on view: step started"]
+  DS["Signature (DocuSign)<br/>on view: step started<br/>as the visitor acts:<br/>signature started, on Next"]
   SIGN["Signing at DocuSign<br/>outside the portal<br/>cannot be measured"]
   RC["Receipt<br/>on view: Application Completed<br/>once per receipt number"]
 
@@ -60,19 +60,19 @@ flowchart TD
 flowchart TB
   subgraph KO["Knockout"]
     direction LR
-    K1["Membership<br/>on view: step viewed"] -->|"first answer<br/>not a member"| K2["knocked out<br/>Next stays disabled"]
+    K1["Membership<br/>on view: step started"] -->|"first answer<br/>not a member"| K2["knocked out<br/>Next stays disabled"]
   end
   subgraph RC["Resume with a verification code"]
     direction LR
-    R1["Resume pages<br/>Form Activity:<br/>resume form"] -->|"code verified"| R2["first restored page<br/>on view: step viewed,<br/>then resumed"]
+    R1["Resume pages<br/>Form Activity:<br/>resume form"] -->|"code verified"| R2["first restored page<br/>on view: step started,<br/>then resumed"]
   end
   subgraph WB["Resume from the welcome-back landing page"]
     direction LR
-    W1["Continue Application<br/>nothing on the click"] --> W2["first restored page<br/>on view: step viewed,<br/>then resumed"]
+    W1["Continue Application<br/>nothing on the click"] --> W2["first restored page<br/>on view: step started,<br/>then resumed"]
   end
   subgraph AD["Advisor-assisted"]
     direction LR
-    A1["Advisor login<br/>Login Activity,<br/>plus the login form"] --> A2["Application pages<br/>the same events as<br/>self-service"] --> A3["Confirmation sent<br/>on view: advisor<br/>confirmation sent"] --> A4["Applicant review<br/>on view: step viewed,<br/>each page, no started"]
+    A1["Advisor login<br/>Login Activity,<br/>plus the login form"] --> A2["Application pages<br/>the same events as<br/>self-service"] --> A3["Confirmation sent<br/>on view: advisor<br/>confirmation sent"] --> A4["Applicant review<br/>on view: step started,<br/>each page, no started"]
   end
   KO ~~~ RC ~~~ WB ~~~ AD
 ```
@@ -89,15 +89,15 @@ Detected and Page Load Completed.
 | Step | Events, in order | Sent to Adobe as |
 |---|---|---|
 | Landing page | PLS, UD, PLC | a page view |
-| Quote drawer | quote started, products viewed, product added | 3 separate hits |
+| Quote drawer | quote started, products viewed, product added (on Apply for coverage) | 3 separate hits |
 | Begin application | nothing | none |
-| Membership | PLS, UD, step viewed (1), PLC; then Application Started, and an error if Next fails | a page view; then separate hits |
-| Eligibility | PLS, UD, step viewed (2), PLC; then saved | a page view; a hit |
-| Coverage | PLS, UD, step viewed (3), PLC; then products viewed, product added | a page view; 2 hits |
-| Beneficiary | PLS, UD, step viewed (4), PLC; Add Beneficiary opens a window | a page view; a hit |
-| Contact, Profile, Review | PLS, UD, step viewed, PLC each; Print on Review | a page view each; a hit |
-| Health pages that apply | PLS, UD, step viewed, PLC each | a page view each |
-| Payment | PLS, UD, step viewed, PLC | a page view |
-| Signature | PLS, UD, step viewed, PLC; then signature started | a page view; a hit |
+| Membership | PLS, UD, step started (1), PLC; then Application Started, and an error if Next fails | a page view; then separate hits |
+| Eligibility | PLS, UD, step started (2), PLC; then saved | a page view; a hit |
+| Coverage | PLS, UD, step started (3), PLC; then products viewed; product added on Next | a page view; 2 hits |
+| Beneficiary | PLS, UD, step started (4), PLC; Add Beneficiary opens a window | a page view; a hit |
+| Contact, Profile, Review | PLS, UD, step started, PLC each; Print on Review | a page view each; a hit |
+| Health pages that apply | PLS, UD, step started, PLC each | a page view each |
+| Payment | PLS, UD, step started, PLC | a page view |
+| Signature | PLS, UD, step started, PLC; then signature started | a page view; a hit |
 | DocuSign | nothing: outside the portal | none |
 | Receipt | PLS, UD, Application Completed, PLC; Application PDF if clicked | a page view; a hit |

@@ -46,7 +46,7 @@ sequenceDiagram
   rect rgba(80,140,255,0.12)
     UI->>DL: Page Load Started (loadType virtual, campaign empty)
     UI->>DL: User Detected
-    UI->>DL: Application Activity step viewed (membership)
+    UI->>DL: Application Activity step started (membership)
     UI->>DL: Page Load Completed
     DL->>AA: page view
   end
@@ -96,7 +96,7 @@ window.appEventData.push({
     "stage": null,
     "loadType": "initial",
     "language": "en-us",
-    "environment": "production"
+    "environment": "production | New Experience Site"
   }
 });
 ```
@@ -118,7 +118,7 @@ All 12 details are sent every time; a detail that does not apply is `null`.
 | `page.stage` | string or null | Recommended. The application stage ([table below](#page-type-and-stage-by-page)); `null` outside the application | `getting-started`, `null` |
 | `page.loadType` | string | Required. Recommended. `initial` for the first page of a page load (including a reload and the return from DocuSign); `virtual` for a change of step | `initial`, `virtual` |
 | `page.language` | string or null | Recommended. The page's language | `en-us` |
-| `page.environment` | string | Required. Recommended. Which build: production, staging or development | `production` |
+| `page.environment` | string | Required. Recommended. The build and the site, written `"<build> \| <site>"`: production, staging or development, then the site experience, so the new portal is told apart from the legacy site in the shared Adobe Launch property. The legacy site's label is [decision 25](../open-questions.md) | `production \| New Experience Site` |
 
 ### Page type and stage by page
 

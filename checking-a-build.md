@@ -19,7 +19,7 @@ shows duplicate events that do not happen in production.
 ## Nothing typed is recorded
 
 3. Fill in a form with test details (a test name, email and ZIP code). Search the console output
-   for each of them: **none may be found.** Then search for `step-viewed`: it must be found, which
+   for each of them: **none may be found.** Then search for `step-started`: it must be found, which
    proves the search works.
 4. Open the portal with `?campaign=test-campaign&amt=250000` in the address. In the requests sent to
    Adobe, `test-campaign` is found on the first page view, and `250000` is found nowhere.
@@ -37,20 +37,23 @@ shows duplicate events that do not happen in production.
 
 ## Both landing experiences
 
-7. On an association with the instant quote panel: the landing page view carries Form Activity
-   "viewed"; the first input records "quote started"; a failed "Get an instant quote" records one
-   error; results record "products viewed".
-8. On the default experience: the landing page view carries no Form Activity; the quote drawer
-   records "quote started", "products viewed" and "product added".
+7. On an association with the instant quote panel: the landing page view carries no Form
+   Activity; the first input records Application Activity "quote started"; a failed "Get an
+   instant quote" records one Application Activity error; results record "products viewed".
+8. On the default experience: the quote drawer records "quote started" and "products viewed";
+   Add records nothing; "Apply for coverage" records one "product added".
+9. In the application: Add coverage on Coverage records nothing; a Next that passes validation
+   records one "product added" with the products added; a confirmed removal records "product
+   removed". No Form Activity fires anywhere in the application or the quote.
 
 ## Logins
 
-9. On the advisor login and the resume pages: the first input records Login Activity "started";
+10. On the advisor login and the resume pages: the first input records Login Activity "started";
    an empty field records one Form Activity error; a wrong code or wrong credentials records one
    Login Activity "failed"; success records one "succeeded", and the next page shows the new
    login status. `login.id` and `user.id` are empty.
 
 ## Consent
 
-10. Repeat steps 1 to 5 with cookies accepted and with cookies declined. The data layer is the same
+11. Repeat steps 1 to 5 with cookies accepted and with cookies declined. The data layer is the same
    in both; only what Adobe receives differs.

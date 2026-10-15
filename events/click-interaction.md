@@ -94,7 +94,7 @@ sequenceDiagram
   rect rgba(80,140,255,0.12)
     Note over UI,AA: Review page view
     UI->>DL: Page Load Started, User Detected
-    UI->>DL: Application Activity step viewed
+    UI->>DL: Application Activity step started
     UI->>DL: Page Load Completed
     DL->>AA: page view
   end
@@ -105,7 +105,7 @@ sequenceDiagram
   UI->>DL: Click Interaction print, print-review
   DL->>AA: separate hit
   U->>UI: tick the consent checkbox
-  UI->>DL: Form Activity field completed (consent), not Click Interaction
+  UI->>DL: Application Activity field completed (consent), not Click Interaction
   Note over DL,AA: data layer only
 ```
 

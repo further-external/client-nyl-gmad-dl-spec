@@ -59,10 +59,10 @@ Every page view, including each step of the single-page application, follows the
 | **User Detected** | Whether the visitor is a consumer or an advisor, and whether their identity was checked | [events/user-detected.md](events/user-detected.md) |
 | **Page Load Completed** | The page view is complete and can be sent | [events/page-load-completed.md](events/page-load-completed.md) |
 | **Click Interaction** | A click on a tracked link or button: contact, download, print, a window opening or closing, and the element clicked | [events/click-interaction.md](events/click-interaction.md) |
-| **Form Activity** | How a form is used: shown, steps, fields completed, errors | [events/form-activity.md](events/form-activity.md) |
+| **Form Activity** | How a supplemental form is used (resume, advisor login, a future Contact Us): shown, steps, fields completed, errors. Never inside the application or the quote | [events/form-activity.md](events/form-activity.md) |
 | **Login Activity** | An identity check: the advisor login and the consumer's resume code. Started, succeeded, failed, logged out | [events/login-activity.md](events/login-activity.md) |
 | **Application Started** | The application begins: the first input on the Membership form. Once per application | [events/application-started.md](events/application-started.md) |
-| **Application Activity** | Progress through the quote and the application: quotes, products, each step | [events/application-activity.md](events/application-activity.md) |
+| **Application Activity** | Progress through the quote and the application: quotes, products committed to the cart, each step, and the fields and errors on its forms | [events/application-activity.md](events/application-activity.md) |
 | **Application Completed** | The application is submitted: the receipt, with the submitted products and their price. Once per receipt number | [events/application-completed.md](events/application-completed.md) |
 
 ## Reference
@@ -72,7 +72,8 @@ Every page view, including each step of the single-page application, follows the
 | [How it works](how-it-works.md) | The data layer in plain words, the page view sequence, which event fires where |
 | [The application journey](application-journey.md) | Every step of the application, and the knockout, resume and advisor paths |
 | [Products](reference/products.md) | How the products a visitor sees and chooses are described |
-| [Form fields](reference/form-fields.md) | The only field names a form may report |
+| [Form fields](reference/form-fields.md) | The only field names the data layer may report |
+| [Global context and metrics](reference/global-context.md) | The details attached to every hit, and the Adobe metric each event sets |
 | [Page taxonomy](reference/page-taxonomy.md) | How every page is named, and the names you use today next to the recommended ones |
 | [Click elements](reference/click-elements.md) | Which links and buttons are worth tracking, and how to name them |
 | [Reports](reference/reports.md) | The 41 report components and what feeds each one |

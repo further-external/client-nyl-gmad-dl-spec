@@ -37,9 +37,9 @@ sequenceDiagram
   rect rgba(80,140,255,0.12)
     Note over UI,AA: Eligibility page view
     UI->>DL: Page Load Started, User Detected
-    UI->>DL: Application Activity step viewed (eligibility)
+    UI->>DL: Application Activity step started (eligibility)
     UI->>DL: Page Load Completed
-    DL->>AA: one page view (page, visitor and step viewed together)
+    DL->>AA: one page view (page, visitor and step started together)
   end
 ```
 
@@ -78,5 +78,5 @@ window.appEventData.push({
 
 1. `appEventData.map(e => e.event)` shows Page Load Started, User Detected, any page events, then
    Page Load Completed, for every page and step.
-2. In the Adobe debugger, each page view is one hit, and the step viewed or the Application Completed travels
+2. In the Adobe debugger, each page view is one hit, and the step started or the Application Completed travels
    on it.

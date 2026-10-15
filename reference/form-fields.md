@@ -2,8 +2,13 @@
 
 [Back to the overview](../README.md) · Proposed, needs your approval ([decision 8](../open-questions.md))
 
-These are **the only field names a form may report**, in `form.field.name` and `form.error.field`
-([Form Activity](../events/form-activity.md)). A name says a field was completed or was in error.
+These are **the only field names the data layer may report**:
+- in the application and the instant quote panel, in `application.field.name` and
+  `application.error.field` ([Application Activity](../events/application-activity.md));
+- on the resume and advisor login forms, in `form.field.name` and `form.error.field`
+  ([Form Activity](../events/form-activity.md)).
+
+ A name says a field was completed or was in error.
 **It never carries what was entered:** `zip-code` says the ZIP code field was completed, never which
 ZIP code.
 
@@ -16,7 +21,7 @@ name. The ZIP code inside the home address reports `home-address`, not `zip-code
 
 ## The list
 
-**The application** (`form.name: "application"`):
+**The application** (Application Activity):
 
 | Page | Allowed names |
 |---|---|
@@ -27,12 +32,12 @@ name. The ZIP code inside the home address reports `home-address`, not `zip-code
 | Review | `consent` |
 | Beneficiary, Profile, the health pages, Payment | none, on purpose (below) |
 
-**The instant quote panel** (`form.name: "instant-quote"`): `date-of-birth`, `zip-code`, `state`.
+**The instant quote panel** (Application Activity): `date-of-birth`, `zip-code`, `state`.
 
-**Resuming an application** (`form.name: "resume"`): `email` (email step), `contact-method`
+**Resuming an application** (Form Activity, `form.name: "resume"`): `email` (email step), `contact-method`
 (method step), `verification-code` (code step).
 
-**The advisor login** (`form.name: "advisor-login"`): `advisor-email`, `advisor-phone`,
+**The advisor login** (Form Activity, `form.name: "advisor-login"`): `advisor-email`, `advisor-phone`,
 `access-code`.
 
 ## Why some pages report no fields
@@ -47,7 +52,7 @@ purpose:**
   make-up, which is never recorded. For the same reason, an error on Eligibility never names the
   field.
 
-**Not forms, so nothing is reported:** the quote drawer and the Needs Calculator.
+**Nothing is reported from** the quote drawer's inputs or the Needs Calculator.
 
 **Checkboxes:** a single checkbox's completion means it was ticked, so only two are listed,
 `consent` and `same-as-home`, because ticking them reveals nothing personal.

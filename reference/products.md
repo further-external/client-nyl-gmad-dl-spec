@@ -20,9 +20,9 @@ submitted products directly, with their benefit amount and price.
 | Action | `application.product` holds | Sent to Adobe as products |
 |---|---|---|
 | `products-viewed` | every product shown: quote results, or the coverage product cards | yes |
-| `product-added` | the product just added | yes |
-| `product-removed` | the product just removed | yes |
-| `step-viewed` | the cart at that moment, or `[]` before coverage is chosen | no: for context in the data layer |
+| `product-added` | the products added since the last commit (a Next on Coverage, or "Apply for coverage" in the quote drawer) | yes |
+| `product-removed` | the product whose removal was confirmed | yes |
+| `step-started` | the cart at that moment, or `[]` before coverage is chosen | no: for context in the data layer |
 | Application Completed | every product in the submitted application | yes, with its price (revenue) |
 | any other action | `[]` | no |
 

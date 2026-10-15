@@ -16,10 +16,10 @@ want to answer later.
 |---|---|---|
 | Login success (event2) | both | **Needs your decision** ([decision 3](../open-questions.md)): consumers do not log in on the new portal. Candidate: [Login Activity](../events/login-activity.md) `succeeded`, for advisor logins, consumer resume checks, or both |
 | Form Start (event12) | both | [Application Started](../events/application-started.md), once per application |
-| Eligibility (event16) | both | Application Activity `step-viewed` on Eligibility, every view. **Proposed** |
-| Coverage (event19) | both | Application Activity `step-viewed` on Coverage, every view. **Proposed** |
+| Eligibility (event16) | both | Application Activity `step-started` on Eligibility, every view. **Proposed** |
+| Coverage (event19) | both | Application Activity `step-started` on Coverage, every view. **Proposed** |
 | Contact (event21) | both | **Needs your decision** ([decision 4](../open-questions.md)): the Contact page, or contact clicks ([Click Interaction](../events/click-interaction.md) `contact`) |
-| Preview (event22) | MOAA | Application Activity `step-viewed` on Review, every view. **Proposed** |
+| Preview (event22) | MOAA | Application Activity `step-started` on Review, every view. **Proposed** |
 | Signature (event39) | both | **Needs your decision** ([decision 4](../open-questions.md)): reaching the Signature page, leaving for DocuSign, or the receipt |
 | Order Page (event44) | both | **Needs your decision** ([decision 4](../open-questions.md)): the Payment page or the receipt; no page is called "order" |
 | Application Submit (event77) | both | [Application Completed](../events/application-completed.md), once per receipt number |
