@@ -13,8 +13,7 @@
 
 ## When to fire it
 
-- **Fire this event first on every page view:** when the portal first loads, and on every change
-  of page or step inside the portal, even though no new web page loads.
+- **Fire this event first on every page view:** when the portal first loads, and on every route change or navigation step within the portal, including soft transitions between views, since the app is a SPA and never triggers a full page load.
 - **Fire it once the router has settled on the final page.** If one address redirects to another,
   only the final page counts.
 - **Then fire** [User Detected](user-detected.md), any events that describe the page, and
