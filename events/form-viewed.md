@@ -19,9 +19,8 @@
 
 ## When to fire it
 
-- **Fire this event when an engagement form is shown.** If the form shows as part of the page,
-  fire it between User Detected and Page Load Completed, so it travels with the page view. If it
-  opens later, in a panel or a window, fire it when it opens, as its own hit.
+- **Fire this event when an engagement form shown.** 
+  This event should fire after the page-load-completed event, even if the underlying asset has already loaded by the time the page load occurs.
 - **Once each time the form is shown.** Closing and reopening it, or reloading the page, shows it
   again.
 - **Never send what was typed:** no field names, no values, no error text. See
@@ -39,22 +38,22 @@ sequenceDiagram
   participant AA as Adobe Analytics
   rect rgba(80,140,255,0.12)
     Note over UI,AA: a page whose form shows with the page
-    UI->>DL: Page Load Started, User Detected
-    UI->>DL: Form Viewed (contact-us)
+    UI->>DL: Page Load Started
+    UI->>DL: User Detected
     UI->>DL: Page Load Completed
-    DL->>AA: page view, carrying Form Viewed
+    DL->>AA: page view
   end
+  UI->>DL: Form Viewed (contact-us)
+  DL->>AA: separate hit (Form Viewed)
   UI->>DL: Form Started (the visitor's first input)
-  DL->>AA: separate hit
+  DL->>AA: separate hit (Form Started)
   alt the submission is accepted
     UI->>DL: Form Completed (modified true or false)
-    DL->>AA: separate hit
+    DL->>AA: separate hit (Form Completed)
   else blocked or abandoned
     Note over UI,AA: nothing is sent
   end
 ```
-
-A form that opens later, in a panel or a window, sends Form Viewed when it opens, as its own hit.
 
 ## Javascript code
 

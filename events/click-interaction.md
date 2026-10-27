@@ -75,7 +75,7 @@ them.
 | Print, on the Review page | `print` | `print-review` | empty | `button` |
 | Application PDF, Payment PDF, on the receipt | `download` | `application-pdf`, `payment-pdf` | `pdf` | `button` |
 | Product category tabs | `tab` | `product-category-tabs` | the category id | `tab` |
-| The 3 eligibility chips on Getting Started (labels to confirm, [decision 29](../open-questions.md)) | `click` | `eligibility-chip` | the chip's id | `button` |
+| The 3 eligibility chips on the "Getting Started" page. | `click` | `eligibility-chip` | `What are my coverage options?`, `How does applying work?`, `How much does it cost?` | `button` |
 
 **Window ids:** `how-applying-works`, `about-coverage`, `about-quickdecision`, `needs-calculator`,
 `review-process`, `coverage-cart`, `add-beneficiary`, `edit-confirmation`, `send-to-applicant`,

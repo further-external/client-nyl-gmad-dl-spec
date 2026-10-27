@@ -40,8 +40,7 @@ The whole journey, page by page, is on [The application journey](../application-
   advisor login forms ([Login Activity](login-activity.md)), or the clicks listed under
   [Click Interaction](click-interaction.md).
 - **Never send PII or an applicant's answers**: no names, contact details, SSNs, dates of birth,
-  health responses, or personal financial figures. Product-level values (a product's price and the
-  selected coverage amount) are product information, not PII, and are sent. See [Privacy](../privacy.md).
+  health responses, or personal financial figures. Product catalog details (ID, name, category, underwriting class) are product information, not PII, and are sent. A product’s price and the selected benefit amount are derived from personal inputs, are considered PII, and are not sent. See [Privacy](../privacy.md).
 
 ## Actions
 
@@ -113,7 +112,7 @@ window.appEventData.push({
     "action": "<action>",
     "channel": "<channel>",
     "applicationName": "<applicationName>",
-    "id": "<applicationId>",
+    "applicationId": "<applicationId>",
     "step": {
       "name": "<stepName>",
       "group": "<stepGroup>",
@@ -132,11 +131,6 @@ window.appEventData.push({
           "name": "<productName>",
           "category": "<productCategory>",
           "underwritingClass": "<underwritingClass>",
-          "benefitAmount": "<benefitAmount>",
-          "price": {
-            "basePrice": "<basePrice>",
-            "sellingPrice": "<sellingPrice>"
-          }
         },
         "quantity": "<quantity>",
         "quickDecisionEligible": "<quickDecisionEligible>"
@@ -157,7 +151,7 @@ window.appEventData.push({
   "application": {
     "action": "products-viewed",
     "channel": "self-service",
-    "applicationName": "waepa-term-life",
+    "applicationId": "waepa-term-life",
     "id": null,
     "step": {
       "name": null,
@@ -177,11 +171,7 @@ window.appEventData.push({
           "name": "Group Term Life",
           "category": "term-life",
           "underwritingClass": "si",
-          "benefitAmount": 100000,
-          "price": {
-            "basePrice": 45.00,
-            "sellingPrice": 39.99
-          }
+         
         },
         "quantity": 1,
         "quickDecisionEligible": true
@@ -192,11 +182,6 @@ window.appEventData.push({
           "name": "Group Disability Income",
           "category": "disability",
           "underwritingClass": "di",
-          "benefitAmount": 50000,
-          "price": {
-            "basePrice": 60.00,
-            "sellingPrice": 52.50
-          }
         },
         "quantity": 1,
         "quickDecisionEligible": false
@@ -243,7 +228,7 @@ when no product is involved.
 | `application.action` | string | Required. For your reports. What happened ([Actions](#actions)) | `products-viewed`, `product-added`, `step-started` |
 | `application.channel` | string | Required. Recommended. Who is completing the application | `self-service`, `advisor-assisted` |
 | `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
-| `application.id` | string or null | Required. Recommended. A masked id for this application, the same from the moment it is created through saves and resumes to the receipt, so one application can be followed across visits (agreed on 2026-10-23). Your system masks it; never the internal application number in clear, never anything typed. Empty before the application exists. When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
+| `application.applicationId` | string or null | Required. Recommended. A masked id for this application, the same from the moment it is created through saves and resumes to the receipt, so one application can be followed across visits (agreed on 2026-10-23). Your system masks it; never the internal application number in clear, never anything typed. Empty before the application exists. When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
 | `application.step.name` | string or null | Required on step actions. For your reports. The application page | `membership`, `eligibility`, `coverage`, `review`, `payment`, `docusign` |
 | `application.step.group` | string or null | Required with a step. Recommended. The progress stage | `getting-started`, `coverage-options`, `profile`, `application-review`, `esign-submit` |
 | `application.step.number` | integer or null | Required with a step. Recommended. The step's position in this application's flow | `1`, `2`, `3` |
@@ -256,9 +241,6 @@ when no product is involved.
 | `application.product[n].productInfo.name` | string | Required. Recommended. The product name as configured | `Group Term Life` |
 | `application.product[n].productInfo.category` | string | Required. Recommended. The product category | `term-life`, `disability` |
 | `application.product[n].productInfo.underwritingClass` | string or null | Required. Recommended. The product's underwriting class | `si`, `gi` |
-| `application.product[n].productInfo.benefitAmount` | integer or null | Required. Recommended. The selected coverage / benefit amount for this product (product-level, not PII) | `100000` |
-| `application.product[n].productInfo.price.basePrice` | number or null | Required. Recommended. The product's base price; carried as a currency event | `45.00` |
-| `application.product[n].productInfo.price.sellingPrice` | number or null | Required. Recommended. The price charged; drives revenue attribution | `39.99` |
 | `application.product[n].quantity` | integer | Required. Recommended. Always `1`: it never counts people | `1` |
 | `application.product[n].quickDecisionEligible` | boolean | Required. Recommended. Whether the product offers a quick decision | `true`, `false` |
 
