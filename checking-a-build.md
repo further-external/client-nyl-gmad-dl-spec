@@ -29,7 +29,7 @@ shows duplicate events that do not happen in production.
 5. In the Adobe debugger:
    - each page view is one hit, carrying the events that describe the page;
    - each click, error, quote or product change is its own hit, sent when it happens;
-   - "field completed" and "step completed" send nothing yet;
+   - "step completed" sends nothing yet;
    - a click on the Privacy Notice or an Application PDF sends exactly one hit.
 6. Reload the Eligibility page and the receipt: the step is recorded again as a repeat;
    Application Started and Application Completed are not repeated, and orders and revenue do not
@@ -37,19 +37,20 @@ shows duplicate events that do not happen in production.
 
 ## Both landing experiences
 
-7. On an association with the instant quote panel: the landing page view carries no Form
-   Activity; the first input records Application Activity "quote started"; a failed "Get an
+7. On an association with the instant quote panel: the landing page view carries no form event;
+   the first input records Application Activity "quote started"; a failed "Get an
    instant quote" records one Application Activity error; results record "products viewed".
 8. On the default experience: the quote drawer records "quote started" and "products viewed";
    Add records nothing; "Apply for coverage" records one "product added".
 9. In the application: Add coverage on Coverage records nothing; a Next that passes validation
    records one "product added" with the products added; a confirmed removal records "product
-   removed". No Form Activity fires anywhere in the application or the quote.
+   removed". No form event fires anywhere in the application or the quote, and no push names a
+   field.
 
 ## Logins
 
 10. On the advisor login and the resume pages: the first input records Login Activity "started";
-   an empty field records one Form Activity error; a wrong code or wrong credentials records one
+   an empty field records nothing; a wrong code or wrong credentials records one
    Login Activity "failed"; success records one "succeeded", and the next page shows the new
    login status. `login.id` and `user.id` are empty.
 

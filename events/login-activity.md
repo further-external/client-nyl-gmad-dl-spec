@@ -1,13 +1,14 @@
 # Login Activity
 
-**Event name:** `Login Activity` · Recommended; a successful login may feed your reports ([decision 3](../open-questions.md))
+**Event name:** `Login Activity` · Needed for your reports: a successful login is your login success count ([decision 3](../open-questions.md), answered)
 
 [Back to the overview](../README.md)
 
 ## What it answers
 
 - How many advisors log in, and how many consumers verify their identity to resume an
-  application.
+  application: together, your login success count (event2), every user type included.
+- It is the only event on the resume and advisor login forms: no form event fires there.
 - How many login attempts are rejected, and why (a wrong code, an expired code, wrong
   credentials), never what was typed.
 - How many visits with a login go on to submit an application.
@@ -25,10 +26,10 @@
 - **Fire `failed`** each time the server rejects the credentials or the code.
 - **Fire `logged-out`** when an advisor logs out, if the portal has a log out.
 - **Do not fire it for:**
-  - a field left empty or badly formatted before anything is sent to the server: that is a
-    [Form Activity](form-activity.md) error;
+  - a field left empty or badly formatted before anything is sent to the server: nothing is sent
+    (there is no field-level tracking);
   - Continue Application on the welcome-back page (there is no identity check);
-  - Resend code (an [Click Interaction](click-interaction.md)).
+  - Resend code (a [Click Interaction](click-interaction.md)).
 - **The visitor's status changes on the next page, not this one.** The hit that records the
   success still shows the old status; the next page's [User Detected](user-detected.md) shows the
   new one.
@@ -56,16 +57,12 @@ sequenceDiagram
   rect rgba(80,140,255,0.12)
     Note over UI,AA: Advisor login page view
     UI->>DL: Page Load Started, User Detected (anonymous, advisor)
-    UI->>DL: Form Activity viewed (advisor-login)
     UI->>DL: Page Load Completed
     DL->>AA: page view
   end
   UI->>DL: Login Activity started
   DL->>AA: separate hit
-  alt a field is empty or badly formatted
-    UI->>DL: Form Activity error
-    DL->>AA: separate hit
-  else the server rejects the credentials
+  opt the server rejects the credentials
     UI->>DL: Login Activity failed (credentials-invalid)
     DL->>AA: separate hit
   end
@@ -122,7 +119,7 @@ All details are sent every time; a detail that does not apply is `null`.
 
 | Path | Type | Description | Example |
 |---|---|---|---|
-| `login.action` | string | Required. What happened ([Actions](#actions)). `succeeded` may feed your login success count ([decision 3](../open-questions.md)) | `started`, `succeeded`, `failed`, `logged-out` |
+| `login.action` | string | Required. What happened ([Actions](#actions)). `succeeded` is your login success count ([decision 3](../open-questions.md)) | `started`, `succeeded`, `failed`, `logged-out` |
 | `login.method` | string | Required. How the identity is checked: credentials for the advisor login, an email and code for the consumer resume | `credentials`, `email-code` |
 | `login.userType` | string | Required. Who is logging in | `advisor`, `consumer` |
 | `login.failureReason` | string or null | Required on `failed`. Why the server rejected the attempt, from a fixed list, never the message text ([decision 19](../open-questions.md)) | `credentials-invalid`, `code-incorrect`, `code-expired`, `no-match`, `service-unavailable` |

@@ -64,7 +64,7 @@ flowchart TB
   end
   subgraph RC["Resume with a verification code"]
     direction LR
-    R1["Resume pages<br/>Form Activity:<br/>resume form"] -->|"code verified"| R2["first restored page<br/>on view: step started,<br/>then resumed"]
+    R1["Resume pages<br/>Login Activity"] -->|"code verified"| R2["first restored page<br/>on view: step started,<br/>then resumed"]
   end
   subgraph WB["Resume from the welcome-back landing page"]
     direction LR

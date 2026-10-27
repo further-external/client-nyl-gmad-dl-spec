@@ -1,6 +1,6 @@
 # Click Interaction
 
-**Event name:** `Click Interaction` · Recommended; contact clicks may feed your reports ([decision 4](../open-questions.md))
+**Event name:** `Click Interaction` · Recommended
 
 [Back to the overview](../README.md)
 
@@ -24,8 +24,8 @@
   - controls whose result is recorded by another event: Begin application, Next and Back, Add
     coverage, Remove, See my quote, the signature Next, Continue on the resume pages;
   - form fields of any kind: text boxes, dropdowns, radio buttons, checkboxes, health answers;
-  - Add Spouse, Add Child and the dependent-only confirmation (household make-up is never recorded,
-    see [Privacy](../privacy.md));
+  - Add Spouse, Add Child, the dependent-only confirmation, and any eligibility chip that adds a
+    spouse or a child (household make-up is never recorded, see [Privacy](../privacy.md));
   - messages the system shows by itself, the cookie banner, and anything inside the chat window,
     the scheduler or DocuSign;
   - any control not in the tracked list.
@@ -75,6 +75,7 @@ them.
 | Print, on the Review page | `print` | `print-review` | empty | `button` |
 | Application PDF, Payment PDF, on the receipt | `download` | `application-pdf`, `payment-pdf` | `pdf` | `button` |
 | Product category tabs | `tab` | `product-category-tabs` | the category id | `tab` |
+| The 3 eligibility chips on Getting Started (labels to confirm, [decision 29](../open-questions.md)) | `click` | `eligibility-chip` | the chip's id | `button` |
 
 **Window ids:** `how-applying-works`, `about-coverage`, `about-quickdecision`, `needs-calculator`,
 `review-process`, `coverage-cart`, `add-beneficiary`, `edit-confirmation`, `send-to-applicant`,
@@ -105,11 +106,10 @@ sequenceDiagram
   UI->>DL: Click Interaction print, print-review
   DL->>AA: separate hit
   U->>UI: tick the consent checkbox
-  UI->>DL: Application Activity field completed (consent), not Click Interaction
-  Note over DL,AA: data layer only
+  Note over UI,DL: nothing is sent: no field-level tracking, never a Click Interaction
 ```
 
-Each click is its own hit, after the page view. Ticking a checkbox is form use, so it is never an
+Each click is its own hit, after the page view. Ticking a checkbox is form use, so it is never a
 Click Interaction.
 
 ## Javascript code
@@ -183,7 +183,7 @@ All details are sent every time; a detail that does not apply is `null`.
 
 | Path | Type | Description | Example |
 |---|---|---|---|
-| `interaction.type` | string | Required. What happened ([Actions](#actions)). `contact` may feed your reports; the rest is Recommended | `click`, `contact`, `download` |
+| `interaction.type` | string | Required. What happened ([Actions](#actions)). all Recommended; your Contact count is the Contact page ([decision 4](../open-questions.md), answered) | `click`, `contact`, `download` |
 | `interaction.name` | string | Required. A fixed id for the control. For a window opening or closing, the id of the window | `privacy-notice`, `chat-now`, `edit-confirmation` |
 | `interaction.detail` | string or null | A finer label, from the fixed list for its type ([Actions](#actions)) | `external`, `phone`, `escape` |
 | `interaction.fileName` | string or null | Required on downloads. A fixed label for the file, never its real name | `application-pdf`, `payment-pdf` |

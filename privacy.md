@@ -35,14 +35,12 @@ empty until New York Life confirms what the current portal passes and approves i
 
 ## How the design keeps it that way
 
-- **Field names, not values.** A form reports only that a listed field was completed, by its name,
-  from a [fixed list](reference/form-fields.md). The profile, health, payment and beneficiary
-  pages report no fields at all.
+- **No field-level tracking** (agreed on 2026-10-23). No event names a field, says that a field
+  was completed, or carries a value. Forms are recorded as a whole: shown, started, completed, or
+  blocked.
 - **Clicks report fixed labels.** A click is recorded only on a tracked control, never on a form
   field, and its label is written in the code, never read from the screen.
 - **The health pages report no error detail.** An error there records only that a step was blocked.
-- **Errors on the Eligibility page never name the field**, so they cannot reveal that a spouse or
-  child was added.
 - **Addresses are cleaned before they are recorded.** Only listed address parameters are kept; a
   benefit amount, a token or an ad click id in the address is removed
   ([details](events/page-load-started.md#how-the-address-is-cleaned)). Links record their host and

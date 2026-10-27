@@ -42,8 +42,9 @@ stateDiagram-v2
 ```
 
 **Consumers do not log in on the new portal.** They resume an application with their email and a
-code. Only advisors log in. What the old "login success" measure should mean now is
-[decision 3](../open-questions.md).
+code. Only advisors log in. Your login success count includes both: every Login Activity
+`succeeded`, by credentials or by email and code ([decision 3](../open-questions.md), answered
+2026-10-25).
 
 ## Javascript code
 

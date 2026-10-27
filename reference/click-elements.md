@@ -21,11 +21,12 @@ new portal are in the [tracked controls list](../events/click-interaction.md#tra
 | Links that leave the portal | the Privacy Notice, the association's website | `click` | `link` | the destination: `privacy-notice`, `association-website` |
 | Footer links | terms, accessibility, contact us | `click` | `link` | `footer-` plus the topic: `footer-terms` |
 | Product links | product cards and product pages | `click` | `link` | `product-` plus the product category: `product-term-life` |
+| Eligibility chips | the 3 chips on Getting Started (labels to confirm, [decision 29](../open-questions.md)); never a chip that adds a spouse or a child | `click` | `button` | `eligibility-chip`, with the chip's id as the detail |
 
 ## Not worth tracking
 
-- **Form fields** of any kind: they belong to [Form Activity](../events/form-activity.md), as field
-  names only.
+- **Form fields** of any kind: there is no field-level tracking (agreed on 2026-10-23). Forms are
+  recorded as a whole, by the [form events](../events/form-viewed.md) and the application events.
 - **Controls whose result is already recorded:** Begin application, Next and Back, Add coverage,
   See my quote. The result is the event.
 - **Household controls** (Add Spouse, Add Child): household make-up is never recorded.

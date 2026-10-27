@@ -31,8 +31,11 @@ The whole journey, page by page, is on [The application journey](../application-
 - **Do not fire it for:** an e-sign start, a docusign step, or an advisor confirmation (that is its
   own event).
 
-**Feeds your reports:** Application Submit (event77), counted once per `receiptId`. The purchase,
-orders and revenue are Recommended, beyond your two reports.
+**Feeds your reports:** Application Submit (event77) and Order Page (event44), both counted once
+per `receiptId` on this one hit. Today both fire on the Thank You page (event77 on the Decision page
+in the quick-decision flow); the new template merges those pages, so both now count the same
+submit and both report series continue ([decision 4](../open-questions.md), answered). The
+purchase, orders and revenue are Recommended, beyond your two reports.
 
 ## What a purchase needs in Adobe
 
@@ -82,6 +85,7 @@ window.appEventData.push({
   "application": {
     "channel": "<channel>",
     "applicationName": "<applicationName>",
+    "id": "<applicationId>",
     "receiptId": "<receiptId>",
     "product": [
       {
@@ -115,6 +119,7 @@ window.appEventData.push({
   "application": {
     "channel": "self-service",
     "applicationName": "waepa-term-life",
+    "id": "4f9c2a7e1b83",
     "receiptId": "APP-12345678",
     "product": [
       {
@@ -160,6 +165,7 @@ All details are sent every time; a detail that does not apply is `null`.
 |---|---|---|---|
 | `application.channel` | string | Required. For your reports. Who completed the application | `self-service`, `advisor-assisted` |
 | `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
+| `application.id` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
 | `application.receiptId` | string | Required. The order id. Deduplicates the purchase; counts each application once | `APP-12345678` |
 | `application.product` | array | Required. For your reports. Every submitted product; carried on the product string | a list |
 | `application.product[n].productInfo.productID` | string | Required. Stable product id; the product-string identifier | `G-4120-1` |

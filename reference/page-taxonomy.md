@@ -61,14 +61,19 @@ The routes of the health pages the design does not show yet, and the production 
 
 ## Today vs recommended
 
-How the names your reports use today line up with the recommended ones. **To be completed** once
-we have the current page names from Adobe (page name, eVar1), so nothing in your history is lost.
+**You asked to keep today's page names wherever a current equivalent exists** (2026-10-25), so
+your segments, dashboards and history carry across the change of template. The recommended names
+apply where there is no equivalent, or where you choose them. The table is completed from the
+current page names in Adobe (page name, eVar1).
 
 | Page name today | Recommended `page.pageName` | Note |
 |---|---|---|
-| (to be completed) | | |
+| `contact` | `application\|contact` | The Contact page; feeds Contact (event21) |
+| `signature` | `application\|docusign` | The Read & Sign page; feeds Signature (event39) |
+| (the rest, from the current page names) | | |
 
-Three Executive segments key on page names today and will be rebuilt on the new ones:
+Three Executive segments key on page names today. You asked to keep today's names for them where
+an equivalent exists; otherwise they are rebuilt on these:
 
 | Segment | Recommended page name |
 |---|---|

@@ -14,14 +14,14 @@ want to answer later.
 
 | Component | Report | Fed by |
 |---|---|---|
-| Login success (event2) | both | **Needs your decision** ([decision 3](../open-questions.md)): consumers do not log in on the new portal. Candidate: [Login Activity](../events/login-activity.md) `succeeded`, for advisor logins, consumer resume checks, or both |
+| Login success (event2) | both | [Login Activity](../events/login-activity.md) `succeeded`: advisor logins and consumer resume checks, every user type ([decision 3](../open-questions.md), answered) |
 | Form Start (event12) | both | [Application Started](../events/application-started.md), once per application |
 | Eligibility (event16) | both | Application Activity `step-started` on Eligibility, every view. **Proposed** |
 | Coverage (event19) | both | Application Activity `step-started` on Coverage, every view. **Proposed** |
-| Contact (event21) | both | **Needs your decision** ([decision 4](../open-questions.md)): the Contact page, or contact clicks ([Click Interaction](../events/click-interaction.md) `contact`) |
+| Contact (event21) | both | Application Activity `step-started` on the Contact page, every view ([decision 4](../open-questions.md), answered) |
 | Preview (event22) | MOAA | Application Activity `step-started` on Review, every view. **Proposed** |
-| Signature (event39) | both | **Needs your decision** ([decision 4](../open-questions.md)): reaching the Signature page, leaving for DocuSign, or the receipt |
-| Order Page (event44) | both | **Needs your decision** ([decision 4](../open-questions.md)): the Payment page or the receipt; no page is called "order" |
+| Signature (event39) | both | Application Activity `step-started` on the Signature page (your Read & Sign page), every view ([decision 4](../open-questions.md), answered) |
+| Order Page (event44) | both | [Application Completed](../events/application-completed.md), on the same hit as Application Submit: the new template merges the Decision and Thank You pages ([decision 4](../open-questions.md), answered) |
 | Application Submit (event77) | both | [Application Completed](../events/application-completed.md), once per receipt number |
 | Advisor Confirmation (event79) | Executive | Application Activity `advisor-confirmation-sent` ([decision 7](../open-questions.md)) |
 
@@ -52,11 +52,11 @@ Systems, Referring Domain, Day of Week, Hour of Day.
 | Segment | Report |
 |---|---|
 | Thank-you page | MOAA |
-| All sites except GI and SI ([decision 11](../open-questions.md)) | Executive |
+| All sites except GI and SI: by the site address, so Server (`page.host`) carries it ([decision 11](../open-questions.md), answered) | Executive |
 | Exclude bot traffic from mybarbenefits.com | Executive |
 | Exclude outdated browsers | Executive |
 | Page Name: Resume OTP Validation | Executive |
 | Page Name: Resume Email Confirmation | Executive |
 | Page Name: Resume OTP Request | Executive |
-| Login Success Users ([decision 3](../open-questions.md)) | Executive |
-| App Submit after Login, same visit ([decision 3](../open-questions.md)) | Executive |
+| Login Success Users: rebuilt on Login Activity `succeeded` ([decision 3](../open-questions.md)) | Executive |
+| App Submit after Login, same visit: Login Activity `succeeded`, then Application Completed ([decision 3](../open-questions.md)) | Executive |

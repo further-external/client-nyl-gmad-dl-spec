@@ -39,7 +39,7 @@ sequenceDiagram
     DL->>AA: one page view, carrying all of the above
   end
   loop As the visitor acts
-    UI->>DL: Click Interaction, Form Activity or Application Activity
+    UI->>DL: Click Interaction, a form, login or application event
     DL->>AA: one separate hit for each
   end
 ```
@@ -48,9 +48,11 @@ sequenceDiagram
   between User Detected and Page Load Completed, so they travel with the page view.
 - **Everything the visitor does afterwards** (a click, an error, an added product) is its own hit,
   sent when it happens. That stays true even if it happens before the page has finished loading.
-- **Two actions stay in the data layer only** for now and are not sent to Adobe: a form field
-  being completed, and a step of the application being completed. Sending them would add server
-  calls, which needs your agreement ([decision 9](open-questions.md)).
+- **One action stays in the data layer only** for now and is not sent to Adobe: a step of the
+  application being completed. Sending it would add server calls, which needs your agreement
+  ([decision 9](open-questions.md)).
+- **No field-level tracking** (agreed at the 2026-10-23 office hours): forms are recorded as a
+  whole, never field by field.
 
 ## Which event fires where: the two landing experiences
 
@@ -64,12 +66,12 @@ The landing page comes in two versions, depending on the association's configura
   the quote and the application: the application started (Start); a quote started, products
   viewed, products committed to the cart, each step (Activity); the submission (Complete). The
   same on every experience.
-- **Application Activity also records how the application and the quote forms are used:** a
-  field completed, and a Next or "Get an instant quote" that is blocked (an error).
+- **Application Activity also records a blocked attempt** in the application and the quote: a
+  Next or "Get an instant quote" that is blocked (an error, with no field named).
 - **Login Activity records identity checks:** the advisor login and the consumer's resume code.
-- **Form Activity is reserved for supplemental forms** (shown, steps, fields completed, errors):
-  the resume and advisor login forms today, and a future form such as Contact Us. It never fires
-  inside the application or the quote.
+  It is the only event on those two forms.
+- **Form Viewed, Form Started and Form Completed are for engagement forms only**, such as the
+  contact form after Chat now. They never fire inside the application, the quote or a login.
 - **The milestone wins.** Its first
   input is recorded as "quote started", "application started" or "login started", and a
   successful submit as "products viewed", the next step or "login succeeded". Nothing is counted
@@ -78,29 +80,31 @@ The landing page comes in two versions, depending on the association's configura
 ```mermaid
 flowchart TD
   L["Landing page view"] --> Q{"Instant quote panel<br/>on this association?"}
-  Q -->|"yes"| IQ["Instant quote panel<br/>first input: quote started<br/>each field: field completed<br/>failed submit: error<br/>results: products viewed"]
+  Q -->|"yes"| IQ["Instant quote panel<br/>first input: quote started<br/>blocked submit: error<br/>results: products viewed"]
   Q -->|"no, the default"| QD["Quote drawer<br/>first input: quote started<br/>results: products viewed<br/>Apply for coverage: product added"]
-  IQ --> APP["Application pages<br/>Application Activity: progress,<br/>fields and errors"]
+  IQ --> APP["Application pages<br/>Application Activity: progress<br/>and blocked attempts"]
   QD --> APP
 ```
 
-| Where | Application Activity | Form Activity |
+| Where | Application Activity | Other events |
 |---|---|---|
-| Landing page **with** the instant quote panel | quote started (first input), field completed, error (a blocked "Get an instant quote"), products viewed (results) | none |
+| Landing page **with** the instant quote panel | quote started (first input), error (a blocked "Get an instant quote"), products viewed (results) | none |
 | Landing page **without** it, and the quote drawer | quote started, products viewed, product added (on "Apply for coverage") | none |
-| Application pages, Membership to Payment | Application Started (first input on Membership); Activity: step started, saved, field completed, error, step completed, product added (on a Next on Coverage that passes validation), product removed (on a confirmed removal), signature started; Application Completed on the receipt | none |
-| Resume pages and the advisor login | resumed, on the first page after a successful resume | viewed, step viewed, field completed, error; the login itself is Login Activity (started, succeeded, failed) |
+| Application pages, Membership to Payment | Application Started (first input on Membership); Activity: step started, saved, error, step completed, product added (on a Next on Coverage that passes validation), product removed (on a confirmed removal), signature started; Application Completed on the receipt | none |
+| Resume pages and the advisor login | resumed, on the first page after a successful resume | Login Activity only (started, succeeded, failed) |
+| An engagement form, for example the contact form after Chat now | none | Form Viewed, Form Started, Form Completed |
 
 ## One action, one event
 
-A single thing the visitor does produces at most one of Click Interaction, Form Activity, Login
-Activity or Application Activity. Take the first that applies:
+A single thing the visitor does produces at most one of Click Interaction, a form event, Login
+Activity or an application event. Take the first that applies:
 
-1. **Is it something in the quote or the application** (progress, a field, an error)? Use
+1. **Is it something in the quote or the application** (progress, a blocked attempt)? Use
    Application Started, Application Activity or Application Completed, when the result happens,
    not on the click.
 2. **Is it a step of a login or resume check?** Use Login Activity.
-3. **Is it a change in how a supplemental form is used?** Use Form Activity.
+3. **Is an engagement form shown, started or completed?** Use Form Viewed, Form Started or Form
+   Completed.
 4. **Is it a click on a tracked control?** Use Click Interaction.
 5. **Otherwise,** add nothing.
 

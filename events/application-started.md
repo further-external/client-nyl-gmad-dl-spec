@@ -24,6 +24,8 @@ The whole journey, page by page, is on [The application journey](../application-
 
 - **Fire this once per application, on the first real input on the Membership form.** Not on the
   Begin application click, and not on the page view.
+- **Values carried from the quote are not an input.** A date of birth, ZIP or state the instant
+  quote filled in starts nothing; wait for the applicant's own first input (agreed on 2026-10-23).
 - **Fire it as its own hit.**
 - **Fire it on every experience the same way**, with or without the instant quote panel
   ([the rule](../how-it-works.md#which-event-fires-where-the-two-landing-experiences)).
@@ -64,7 +66,8 @@ window.appEventData.push({
   "event": "Application Started",
   "application": {
     "channel": "<channel>",
-    "applicationName": "<applicationName>"
+    "applicationName": "<applicationName>",
+    "id": "<applicationId>"
   }
 });
 ```
@@ -77,7 +80,8 @@ window.appEventData.push({
   "event": "Application Started",
   "application": {
     "channel": "self-service",
-    "applicationName": "waepa-term-life"
+    "applicationName": "waepa-term-life",
+    "id": "4f9c2a7e1b83"
   }
 });
 ```
@@ -88,6 +92,7 @@ window.appEventData.push({
 |---|---|---|---|
 | `application.channel` | string | Required. For your reports. Who is completing the application | `self-service`, `advisor-assisted` |
 | `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
+| `application.id` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
 
 ## How to check it
 
