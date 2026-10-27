@@ -19,8 +19,9 @@
 
 ## When to fire it
 
-- **Fire this event when an engagement form shown.** 
-  This event should fire after the page-load-completed event, even if the underlying asset has already loaded by the time the page load occurs.
+- **Fire this event when an engagement form is shown, always as its own hit, after Page Load
+  Completed.** This holds even when the form has already loaded with the page: Form Viewed never
+  waits on, or rides with, the page view.
 - **Once each time the form is shown.** Closing and reopening it, or reloading the page, shows it
   again.
 - **Never send what was typed:** no field names, no values, no error text. See

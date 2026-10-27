@@ -38,7 +38,7 @@ it happens. The details above ride both.
 | User Detected | every page view | with the page view | none of your report components | Recommended |
 | Page Load Completed | every page view | sends the page view | Page Views, one per page view | Your reports |
 | Click Interaction | every type | its own hit | the click variables (link type, text, position, window, file) | Recommended |
-| Form Viewed | an engagement form is shown | with the page view if it shows with the page; otherwise its own hit | none of your report components | Recommended |
+| Form Viewed | an engagement form is shown | its own hit, after the page view | none of your report components | Recommended |
 | Form Started, Form Completed | first input; accepted submit | its own hit | none of your report components | Recommended |
 | Login Activity | `succeeded` | its own hit | Login success (event2), every user type ([decision 3](../open-questions.md), answered) | Your reports |
 | Login Activity | `started`, `failed`, `logged-out` | its own hit | none of your report components | Recommended |
@@ -50,6 +50,6 @@ it happens. The details above ride both.
 | Application Activity | `advisor-confirmation-sent` | with the page view | Advisor Confirmation (event79) ([decision 7](../open-questions.md)) | Your reports |
 | Application Activity | `quote-started`, `saved`, `knocked-out`, `error`, `esign-started`, `resumed` | its own hit (`resumed`: with the page view) | none of your report components | Recommended |
 | Application Activity | `step-completed` | data layer only, not sent yet ([decision 9](../open-questions.md)) | none | Recommended |
-| Application Completed | once per receipt number | with the page view | Application Submit (event77) and Order Page (event44) on the same hit, Product; orders and revenue | Your reports; orders and revenue Recommended |
+| Application Completed | once per receipt number | with the page view | Application Submit (event77) and Order Page (event44) on the same hit, Product; orders | Your reports; orders Recommended |
 
 The 41 report components, and what feeds each one, are on [Reports](reports.md).

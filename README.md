@@ -65,7 +65,7 @@ Every page view, including each step of the single-page application, follows the
 | **Login Activity** | An identity check: the advisor login and the consumer's resume code. Started, succeeded, failed, logged out. Your login success count | [events/login-activity.md](events/login-activity.md) |
 | **Application Started** | The application begins: the first input on the Membership form. Once per application | [events/application-started.md](events/application-started.md) |
 | **Application Activity** | Progress through the quote and the application: quotes, products committed to the cart, each step, and blocked attempts | [events/application-activity.md](events/application-activity.md) |
-| **Application Completed** | The application is submitted: the receipt, with the submitted products and their price. Once per receipt number | [events/application-completed.md](events/application-completed.md) |
+| **Application Completed** | The application is submitted: the receipt, with the submitted products. Once per receipt number | [events/application-completed.md](events/application-completed.md) |
 
 ## Reference
 

@@ -23,7 +23,7 @@
   option, ticking a box, or choosing a browser autofill. Once each time the form is shown, as its
   own hit.
 - **Not** on a click into a field alone, a click on a button, or values the portal filled in
-  itself, reaching a pre-filled form starts nothing.
+  itself: reaching a pre-filled form starts nothing (agreed on 2026-10-23).
 - **Never send what was typed:** no field names, no values, no error text. See
   [Privacy](../privacy.md).
 - **Do not fire it for:** the application or the quote, the resume and advisor login forms, the

@@ -22,9 +22,11 @@
 - **Fire it when the click happens**, before the click changes the page or closes the window.
 - **Do not fire it for:**
   - controls whose result is recorded by another event: Begin application, Next and Back, Add
-    coverage, Remove, See my quote, the signature Next, Continue on the resume pages;
+    coverage, Remove, See my quote, Apply for coverage in the quote drawer, the signature Next,
+    Continue on the resume pages. A drawer's closing button that commits products is the call to
+    action, but it is recorded once, as Application Activity `product-added`, never also here;
   - form fields of any kind: text boxes, dropdowns, radio buttons, checkboxes, health answers;
-  - Add Spouse, Add Child, the dependent-only confirmation, and any eligibility chip that adds a
+  - Add Spouse, Add Child, the dependent-only confirmation, and any helper chip that adds a
     spouse or a child (household make-up is never recorded, see [Privacy](../privacy.md));
   - messages the system shows by itself, the cookie banner, and anything inside the chat window,
     the scheduler or DocuSign;
@@ -39,6 +41,8 @@
 | `interaction.type` | Fire it when | `interaction.detail` | `interaction.element.type` |
 |---|---|---|---|
 | `click` | A tracked link or button is clicked and none of the types below applies | `internal` or `external` on a link; empty on a button | `link`, `button` |
+| `cta` | A tracked call to action is clicked: the button that ends a quote drawer or popover and moves the visitor on, such as Continue, when no other event records it | empty | `button`, `link` |
+| `navigation` | A tracked control that moves the visitor around without committing anything is clicked: inside the quote drawers and popovers, and the menu | `internal` or `external` on a link; empty on a button | `button`, `link` |
 | `contact` | Chat now, Schedule a call, a phone link or an email link is clicked | `chat-now`, `schedule-call`, `phone`, `email` | `button`, `link` |
 | `download` | A document download is clicked | `pdf` | `button`, `link` |
 | `print` | Print is clicked | empty | `button` |
@@ -63,8 +67,8 @@ them.
 | Email links | `contact` | the link's id | `email` | `link` |
 | Privacy Notice | `click` | `privacy-notice` | `external` | `link` |
 | The association's website | `click` | `association-website` | `external` | `link` |
-| Continue Application, in the menu | `click` | `continue-application` | `internal` | `link` |
-| The menu button | `click` | `menu` | empty | `button` |
+| Continue Application, in the menu | `navigation` | `continue-application` | `internal` | `link` |
+| The menu button | `navigation` | `menu` | empty | `button` |
 | Resend code, when resuming | `click` | `resend-code` | empty | `button` |
 | How Applying Works, About Coverage, About QuickDecision, Needs Calculator | `modal-open` | the window's id | empty | `button` |
 | "Learn more about the review process" | `modal-open` | `review-process` | empty | as built |
@@ -75,7 +79,9 @@ them.
 | Print, on the Review page | `print` | `print-review` | empty | `button` |
 | Application PDF, Payment PDF, on the receipt | `download` | `application-pdf`, `payment-pdf` | `pdf` | `button` |
 | Product category tabs | `tab` | `product-category-tabs` | the category id | `tab` |
-| The 3 eligibility chips on the "Getting Started" page. | `click` | `eligibility-chip` | `What are my coverage options?`, `How does applying work?`, `How much does it cost?` | `button` |
+| Helper and eligibility chips, on any page. Membership shows three today: "What are my coverage options?", "How does applying work?", "How much does it cost?" | `click` | `helper-chip` | the chip's id: `coverage-options`, `how-applying-works`, `cost` | `button` |
+| The buttons and links inside the quote drawers and popovers (list confirmed in the build, [decision 31](../open-questions.md)) | `navigation` | the control's id | empty | `button`, `link` |
+| The button that ends a quote drawer or popover without committing products, such as Continue | `cta` | the button's id: `continue` | empty | `button` |
 
 **Window ids:** `how-applying-works`, `about-coverage`, `about-quickdecision`, `needs-calculator`,
 `review-process`, `coverage-cart`, `add-beneficiary`, `edit-confirmation`, `send-to-applicant`,
@@ -183,7 +189,7 @@ All details are sent every time; a detail that does not apply is `null`.
 
 | Path | Type | Description | Example |
 |---|---|---|---|
-| `interaction.type` | string | Required. What happened ([Actions](#actions)). all Recommended; your Contact count is the Contact page ([decision 4](../open-questions.md), answered) | `click`, `contact`, `download` |
+| `interaction.type` | string | Required. What happened ([Actions](#actions)). All Recommended; your Contact count is the Contact page ([decision 4](../open-questions.md), answered) | `click`, `cta`, `navigation`, `contact`, `download` |
 | `interaction.name` | string | Required. A fixed id for the control. For a window opening or closing, the id of the window | `privacy-notice`, `chat-now`, `edit-confirmation` |
 | `interaction.detail` | string or null | A finer label, from the fixed list for its type ([Actions](#actions)) | `external`, `phone`, `escape` |
 | `interaction.fileName` | string or null | Required on downloads. A fixed label for the file, never its real name | `application-pdf`, `payment-pdf` |

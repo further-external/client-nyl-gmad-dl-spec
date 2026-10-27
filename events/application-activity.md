@@ -40,7 +40,10 @@ The whole journey, page by page, is on [The application journey](../application-
   advisor login forms ([Login Activity](login-activity.md)), or the clicks listed under
   [Click Interaction](click-interaction.md).
 - **Never send PII or an applicant's answers**: no names, contact details, SSNs, dates of birth,
-  health responses, or personal financial figures. Product catalog details (ID, name, category, underwriting class) are product information, not PII, and are sent. A product’s price and the selected benefit amount are derived from personal inputs, are considered PII, and are not sent. See [Privacy](../privacy.md).
+  health responses, or personal financial figures. Product catalog details (id, name, category,
+  underwriting class) are product information and are sent. A product's price and the selected
+  benefit amount come from the applicant's own answers, so they are treated as PII and never sent
+  (agreed on 2026-10-27). See [Privacy](../privacy.md).
 
 ## Actions
 
@@ -130,7 +133,7 @@ window.appEventData.push({
           "productID": "<productID>",
           "name": "<productName>",
           "category": "<productCategory>",
-          "underwritingClass": "<underwritingClass>",
+          "underwritingClass": "<underwritingClass>"
         },
         "quantity": "<quantity>",
         "quickDecisionEligible": "<quickDecisionEligible>"
@@ -151,8 +154,8 @@ window.appEventData.push({
   "application": {
     "action": "products-viewed",
     "channel": "self-service",
-    "applicationId": "waepa-term-life",
-    "id": null,
+    "applicationName": "waepa-term-life",
+    "applicationId": null,
     "step": {
       "name": null,
       "group": null,
@@ -170,8 +173,7 @@ window.appEventData.push({
           "productID": "G-4120-1",
           "name": "Group Term Life",
           "category": "term-life",
-          "underwritingClass": "si",
-         
+          "underwritingClass": "si"
         },
         "quantity": 1,
         "quickDecisionEligible": true
@@ -181,7 +183,7 @@ window.appEventData.push({
           "productID": "G-5210-1",
           "name": "Group Disability Income",
           "category": "disability",
-          "underwritingClass": "di",
+          "underwritingClass": "di"
         },
         "quantity": 1,
         "quickDecisionEligible": false
@@ -201,7 +203,7 @@ window.appEventData.push({
     "action": "error",
     "channel": "self-service",
     "applicationName": "waepa-term-life",
-    "id": "4f9c2a7e1b83",
+    "applicationId": "4f9c2a7e1b83",
     "step": {
       "name": "membership",
       "group": "getting-started",
@@ -228,7 +230,7 @@ when no product is involved.
 | `application.action` | string | Required. For your reports. What happened ([Actions](#actions)) | `products-viewed`, `product-added`, `step-started` |
 | `application.channel` | string | Required. Recommended. Who is completing the application | `self-service`, `advisor-assisted` |
 | `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
-| `application.applicationId` | string or null | Required. Recommended. A masked id for this application, the same from the moment it is created through saves and resumes to the receipt, so one application can be followed across visits (agreed on 2026-10-23). Your system masks it; never the internal application number in clear, never anything typed. Empty before the application exists. When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
+| `application.applicationId` | string or null | Required. Recommended. A masked id for this application, the same from the moment it is created through saves and resumes to the receipt, so one application can be followed across visits (agreed on 2026-10-23). The front end provides the masked value, never the database id, never anything typed (2026-10-27). Empty before the application exists. When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
 | `application.step.name` | string or null | Required on step actions. For your reports. The application page | `membership`, `eligibility`, `coverage`, `review`, `payment`, `docusign` |
 | `application.step.group` | string or null | Required with a step. Recommended. The progress stage | `getting-started`, `coverage-options`, `profile`, `application-review`, `esign-submit` |
 | `application.step.number` | integer or null | Required with a step. Recommended. The step's position in this application's flow | `1`, `2`, `3` |
@@ -253,6 +255,6 @@ when no product is involved.
    Add one: nothing fires. Press Next: one product added hit fires, holding the products added.
 4. Press Next with a required field empty: one error hit, with `required-missing` and no field
    name. No form event fires anywhere in the application.
-5. After the first Membership input, every application push carries the same `application.id`;
+5. After the first Membership input, every application push carries the same `application.applicationId`;
    resume the application later: the same id.
 6. Each push has `event` and `application` only, and `application.product` is always a list.

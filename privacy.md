@@ -22,9 +22,12 @@ event and every detail in this specification.
 
 ## Product details that are recorded
 
-A product's **price** and the **benefit amount** selected for it describe the product, not the
-person, and are recorded with the product (agreed at the October 13 review). They are never
-combined with anything that identifies the applicant.
+Only the product's catalog details: its id, name, category, underwriting class and whether it
+offers a quick decision. A product's **price** and the **benefit amount** selected for it are
+**not recorded**: they come from the applicant's own answers (age, health, coverage choice) and,
+combined with other data Adobe collects, could help identify the applicant (agreed at the
+2026-10-27 office hours, replacing the October 13 agreement). Price and benefit data for future
+reporting is [decision 30](open-questions.md).
 
 ## One proposed exception
 

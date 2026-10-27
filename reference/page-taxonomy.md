@@ -64,7 +64,9 @@ The routes of the health pages the design does not show yet, and the production 
 **You asked to keep today's page names wherever a current equivalent exists** (2026-10-25), so
 your segments, dashboards and history carry across the change of template. The recommended names
 apply where there is no equivalent, or where you choose them. The table is completed from the
-current page names in Adobe (page name, eVar1).
+current page names in Adobe (page name, eVar1). **Exception, the resume pages:** the
+recommended names are adopted for them (2026-10-27 office hours), because they describe what the
+visitor is doing better than today's names.
 
 | Page name today | Recommended `page.pageName` | Note |
 |---|---|---|
@@ -72,8 +74,8 @@ current page names in Adobe (page name, eVar1).
 | `signature` | `application\|docusign` | The Read & Sign page; feeds Signature (event39) |
 | (the rest, from the current page names) | | |
 
-Three Executive segments key on page names today. You asked to keep today's names for them where
-an equivalent exists; otherwise they are rebuilt on these:
+Three Executive segments key on the resume page names today. They are rebuilt on the adopted
+names (2026-10-27):
 
 | Segment | Recommended page name |
 |---|---|

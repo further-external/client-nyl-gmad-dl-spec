@@ -34,7 +34,10 @@ The whole journey, page by page, is on [The application journey](../application-
 - **Do not fire it for:** the Begin application click, a quote start, or a resumed application
   (that is [Application Activity](application-activity.md) `resumed`).
 - **Never send PII or an applicant's answers**: no names, contact details, SSNs, dates of birth,
-  health responses, or personal financial figures. Product catalog details (ID, name, category, underwriting class) are product information, not PII, and are sent. A product’s price and the selected benefit amount are derived from personal inputs, are considered PII, and are not sent. See [Privacy](../privacy.md).
+  health responses, or personal financial figures. Product catalog details (id, name, category,
+  underwriting class) are product information and are sent. A product's price and the selected
+  benefit amount come from the applicant's own answers, so they are treated as PII and never sent
+  (agreed on 2026-10-27). See [Privacy](../privacy.md).
 
 ## Example
 
@@ -91,7 +94,7 @@ window.appEventData.push({
 |---|---|---|---|
 | `application.channel` | string | Required. For your reports. Who is completing the application | `self-service`, `advisor-assisted` |
 | `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
-| `application.applicationId` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
+| `application.applicationId` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). The front end provides the masked value, never the database id (2026-10-27). When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
 
 ## How to check it
 

@@ -13,7 +13,7 @@ is about. **One item per product, never one per person:** covering a spouse or c
 item and changes nothing in an item.
 
 **Every item has the same shape on every event.** That lets the reports compare viewed, added and
-submitted products directly, with their benefit amount and price.
+submitted products directly.
 
 ## Which actions carry products
 
@@ -23,7 +23,7 @@ submitted products directly, with their benefit amount and price.
 | `product-added` | the products added since the last commit (a Next on Coverage, or "Apply for coverage" in the quote drawer) | yes |
 | `product-removed` | the product whose removal was confirmed | yes |
 | `step-started` | the cart at that moment, or `[]` before coverage is chosen | no: for context in the data layer |
-| Application Completed | every product in the submitted application | yes, with its price (revenue) |
+| Application Completed | every product in the submitted application | yes, as the purchase (orders, no price) |
 | any other action | `[]` | no |
 
 Application Started carries no products.
@@ -36,12 +36,7 @@ Application Started carries no products.
     "productID": "G-4120-1",
     "name": "Group Term Life",
     "category": "term-life",
-    "underwritingClass": "si",
-    "benefitAmount": 100000,
-    "price": {
-      "basePrice": 45.00,
-      "sellingPrice": 39.99
-    }
+    "underwritingClass": "si"
   },
   "quantity": 1,
   "quickDecisionEligible": true
@@ -54,15 +49,13 @@ Application Started carries no products.
 | `productInfo.name` | yes | The product name as configured, the same for every association | `Group Term Life` | Recommended |
 | `productInfo.category` | yes | The product category | `term-life`, `disability` | Recommended |
 | `productInfo.underwritingClass` | yes, or `null` | The product's underwriting class | `si`, `gi` | Recommended |
-| `productInfo.benefitAmount` | yes, or `null` | The coverage or benefit amount selected for this product | `100000` | Recommended |
-| `productInfo.price.basePrice` | yes, or `null` | The product's base price | `45.00` | Recommended |
-| `productInfo.price.sellingPrice` | yes, or `null` | The price charged; the revenue on Application Completed | `39.99` | Recommended |
 | `quantity` | yes | **Always `1`.** It never counts people, which would reveal household size | `1` | Recommended |
 | `quickDecisionEligible` | yes | Whether the product offers a quick decision | `true`, `false` | Recommended |
 
 **Never in a product item:** anything about the applicants, including who a product covers or how
-many people. A product's price and the selected benefit amount describe the product, not the
-person, and were agreed at the October 13 review.
+many people, and no price or benefit amount: they come from the applicant's own answers
+(agreed at the 2026-10-27 office hours, replacing the October 13 agreement;
+[Privacy](../privacy.md)).
 
 ## How Adobe Launch sends products
 
@@ -70,8 +63,8 @@ For the tag build; developers have nothing to do here.
 
 - Products are written to the Adobe products string only on products viewed, product added,
   product removed and Application Completed, one entry per item.
-- **On Application Completed** the entry carries the price: `;G-4120-1;1;39.99;event<n>=45.00;eVar25=true`
-  (no category, the product id, quantity 1, the selling price as revenue, the base price as a
-  currency event, then the quick-decision flag). The purchase uses the receipt number as its id,
+- **On Application Completed** each entry is `;G-4120-1;1;;eVar25=true` (no category, the product
+  id, quantity 1, an empty price slot, then the quick-decision flag). The purchase uses the receipt
+  number as its id,
   so it is counted once, however many products it holds.
-- On the other events the price slot stays empty.
+- The price slot is always empty: no revenue is recorded.
