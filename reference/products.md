@@ -63,8 +63,8 @@ For the tag build; developers have nothing to do here.
 
 - Products are written to the Adobe products string only on products viewed, product added,
   product removed and Application Completed, one entry per item.
-- **On Application Completed** each entry is `;G-4120-1;1;;eVar25=true` (no category, the product
-  id, quantity 1, an empty price slot, then the quick-decision flag). The purchase uses the receipt
+- **On Application Completed** each entry is `;G-4120-1;1;;;eVar25=true` (no category, the product
+  id, quantity 1, empty price and events slots, then the quick-decision flag in the sixth slot). The purchase uses the receipt
   number as its id,
   so it is counted once, however many products it holds.
 - The price slot is always empty: no revenue is recorded.
