@@ -12,8 +12,8 @@ new portal are in the [tracked controls list](../events/click-interaction.md#tra
 | Category | Examples | `interaction.type` | `element.type` | Name pattern |
 |---|---|---|---|---|
 | Contact and help | Chat now, Schedule a call, Call for help, email links | `contact` | `button`, `link` | what it does: `chat-now`, `schedule-call`, `call-for-help` |
-| Primary calls to action | Learn more, Continue Application in the menu | `click` | `button`, `link` | the action: `learn-more`, `continue-application` |
-| Navigation | the menu button, the logo, main menu links | `click` | `button`, `link` | `menu`, `logo`, the target page: `nav-about-coverage` |
+| Primary calls to action | the button that ends a quote drawer or popover, such as Continue | `cta` | `button`, `link` | the action: `continue`, `learn-more` |
+| Navigation | the buttons and links inside the quote drawers and popovers, the menu button, Continue Application in the menu, the logo, main menu links | `navigation` | `button`, `link` | `menu`, `logo`, `continue-application`, the target page: `nav-about-coverage` |
 | Information windows | How Applying Works, About Coverage, the Needs Calculator | `modal-open`, `modal-close` | `button`, `backdrop`, `key` | the window: `how-applying-works` |
 | Documents | Application PDF, Payment PDF, a plan brochure | `download` | `button`, `link` | the document: `application-pdf` |
 | Print | Print on the Review page | `print` | `button` | the page: `print-review` |
@@ -21,14 +21,15 @@ new portal are in the [tracked controls list](../events/click-interaction.md#tra
 | Links that leave the portal | the Privacy Notice, the association's website | `click` | `link` | the destination: `privacy-notice`, `association-website` |
 | Footer links | terms, accessibility, contact us | `click` | `link` | `footer-` plus the topic: `footer-terms` |
 | Product links | product cards and product pages | `click` | `link` | `product-` plus the product category: `product-term-life` |
-| Eligibility chips | the 3 chips on Getting Started (labels to confirm, [decision 29](../open-questions.md)); never a chip that adds a spouse or a child | `click` | `button` | `eligibility-chip`, with the chip's id as the detail |
+| Helper and eligibility chips | every helper chip on any page, such as the three on Membership; never a chip that adds a spouse or a child | `click` | `button` | `helper-chip`, with the chip's id as the detail: `coverage-options` |
 
 ## Not worth tracking
 
 - **Form fields** of any kind: there is no field-level tracking (agreed on 2026-10-23). Forms are
   recorded as a whole, by the [form events](../events/form-viewed.md) and the application events.
 - **Controls whose result is already recorded:** Begin application, Next and Back, Add coverage,
-  See my quote. The result is the event.
+  See my quote, Apply for coverage in the quote drawer. The result is the event: a drawer button
+  that commits products is recorded as Application Activity `product-added` only.
 - **Household controls** (Add Spouse, Add Child): household make-up is never recorded.
 - **Messages the system shows by itself:** snackbars, the cookie banner.
 - **Anything "just in case":** an element without a question behind it adds load and noise.

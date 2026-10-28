@@ -23,7 +23,7 @@
   option, ticking a box, or choosing a browser autofill. Once each time the form is shown, as its
   own hit.
 - **Not** on a click into a field alone, a click on a button, or values the portal filled in
-  itself (agreed on 2026-10-23: reaching a pre-filled form starts nothing).
+  itself: reaching a pre-filled form starts nothing (agreed on 2026-10-23).
 - **Never send what was typed:** no field names, no values, no error text. See
   [Privacy](../privacy.md).
 - **Do not fire it for:** the application or the quote, the resume and advisor login forms, the
@@ -39,22 +39,22 @@ sequenceDiagram
   participant AA as Adobe Analytics
   rect rgba(80,140,255,0.12)
     Note over UI,AA: a page whose form shows with the page
-    UI->>DL: Page Load Started, User Detected
-    UI->>DL: Form Viewed (contact-us)
+    UI->>DL: Page Load Started
+    UI->>DL: User Detected
     UI->>DL: Page Load Completed
-    DL->>AA: page view, carrying Form Viewed
+    DL->>AA: page view
   end
+  UI->>DL: Form Viewed (contact-us)
+  DL->>AA: separate hit (Form Viewed)
   UI->>DL: Form Started (the visitor's first input)
-  DL->>AA: separate hit
+  DL->>AA: separate hit (Form Started)
   alt the submission is accepted
     UI->>DL: Form Completed (modified true or false)
-    DL->>AA: separate hit
+    DL->>AA: separate hit (Form Completed)
   else blocked or abandoned
     Note over UI,AA: nothing is sent
   end
 ```
-
-A form that opens later, in a panel or a window, sends Form Viewed when it opens, as its own hit.
 
 ## Javascript code
 

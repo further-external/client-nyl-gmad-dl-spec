@@ -32,8 +32,8 @@ shows duplicate events that do not happen in production.
    - "step completed" sends nothing yet;
    - a click on the Privacy Notice or an Application PDF sends exactly one hit.
 6. Reload the Eligibility page and the receipt: the step is recorded again as a repeat;
-   Application Started and Application Completed are not repeated, and orders and revenue do not
-   move (the purchase is deduplicated by the receipt number).
+   Application Started and Application Completed are not repeated, and orders do not move (the
+   purchase is deduplicated by the receipt number).
 
 ## Both landing experiences
 

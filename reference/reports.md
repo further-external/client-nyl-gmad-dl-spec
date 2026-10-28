@@ -25,8 +25,9 @@ want to answer later.
 | Application Submit (event77) | both | [Application Completed](../events/application-completed.md), once per receipt number |
 | Advisor Confirmation (event79) | Executive | Application Activity `advisor-confirmation-sent` ([decision 7](../open-questions.md)) |
 
-**Also recorded, beyond your two reports (Recommended):** orders, revenue and average order value from
-Application Completed, by product and channel.
+**Also recorded, beyond your two reports (Recommended):** orders from Application Completed, by
+product and channel. No revenue or average order value: no price is sent
+([Privacy](../privacy.md)).
 
 ## Dimensions (9)
 
