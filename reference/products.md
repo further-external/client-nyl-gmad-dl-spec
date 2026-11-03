@@ -45,7 +45,7 @@ Application Started carries no products.
 
 | Property | Required | What it holds | Example | Use |
 |---|---|---|---|---|
-| `productInfo.productID` | yes | A stable product id, not the display name. **Proposed: the G-number** ([decision 14](../open-questions.md)) | `G-4120-1` | Reports |
+| `productInfo.productID` | yes | A stable product id, not the display name: the G-number ([decision 14](../open-questions.md), answered) | `G-4120-1` | Reports |
 | `productInfo.name` | yes | The product name as configured, the same for every association | `Group Term Life` | Recommended |
 | `productInfo.category` | yes | The product category | `term-life`, `disability` | Recommended |
 | `productInfo.underwritingClass` | yes, or `null` | The product's underwriting class | `si`, `gi` | Recommended |

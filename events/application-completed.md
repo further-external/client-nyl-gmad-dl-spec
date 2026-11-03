@@ -82,7 +82,6 @@ window.appEventData.push({
   "event": "Application Completed",
   "application": {
     "channel": "<channel>",
-    "applicationName": "<applicationName>",
     "applicationId": "<applicationId>",
     "receiptId": "<receiptId>",
     "product": [
@@ -111,9 +110,8 @@ window.appEventData.push({
   "event": "Application Completed",
   "application": {
     "channel": "self-service",
-    "applicationName": "waepa-term-life",
     "applicationId": "4f9c2a7e1b83",
-    "receiptId": "APP-12345678",
+    "receiptId": "100000000042",
     "product": [
       {
         "productInfo": {
@@ -147,9 +145,8 @@ All details are sent every time; a detail that does not apply is `null`.
 | Path | Type | Description | Example |
 |---|---|---|---|
 | `application.channel` | string | Required. For your reports. Who completed the application | `self-service`, `advisor-assisted` |
-| `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
-| `application.applicationId` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). The front end provides the masked value, never the database id (2026-10-27). When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
-| `application.receiptId` | string | Required. The order id (`purchaseID`). Deduplicates the purchase; counts each application once | `APP-12345678` |
+| `application.applicationId` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). The front end provides the masked value, never the database id (2026-10-27). `null` until the masked id is built (your developers target the end of 2026; [decision 27](../open-questions.md)) | `4f9c2a7e1b83` |
+| `application.receiptId` | string | Required. The order id (`purchaseID`). Deduplicates the purchase; counts each application once. The portal's confirmation number, 12 digits ([decision 15](../open-questions.md), answered) | `100000000042` |
 | `application.product` | array | Required. For your reports. Every submitted product; carried on the product string | a list |
 | `application.product[n].productInfo.productID` | string | Required. Stable product id; the product-string identifier | `G-4120-1` |
 | `application.product[n].productInfo.name` | string | Recommended. Product name as configured | `Group Term Life` |
