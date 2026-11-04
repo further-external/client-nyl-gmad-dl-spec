@@ -68,7 +68,6 @@ window.appEventData.push({
   "event": "Application Started",
   "application": {
     "channel": "<channel>",
-    "applicationName": "<applicationName>",
     "applicationId": "<applicationId>"
   }
 });
@@ -82,7 +81,6 @@ window.appEventData.push({
   "event": "Application Started",
   "application": {
     "channel": "self-service",
-    "applicationName": "waepa-term-life",
     "applicationId": "4f9c2a7e1b83"
   }
 });
@@ -93,8 +91,7 @@ window.appEventData.push({
 | Path | Type | Description | Example |
 |---|---|---|---|
 | `application.channel` | string | Required. For your reports. Who is completing the application | `self-service`, `advisor-assisted` |
-| `application.applicationName` | string | Required. For your reports. The specific application being filled out (for example term life on the WAEPA portal); `channel` says who completes it. The list of values is [decision 23](../open-questions.md) | `waepa-term-life` |
-| `application.applicationId` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). The front end provides the masked value, never the database id (2026-10-27). When it is created and how it is masked is [decision 27](../open-questions.md) | `4f9c2a7e1b83` |
+| `application.applicationId` | string or null | Required. Recommended. The masked id of this application, the same on every application event from the moment it is created (agreed on 2026-10-23). The front end provides the masked value, never the database id (2026-10-27). `null` until the masked id is built (your developers target the end of 2026; [decision 27](../open-questions.md)) | `4f9c2a7e1b83` |
 
 ## How to check it
 

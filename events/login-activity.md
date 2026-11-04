@@ -12,8 +12,8 @@
 - How many login attempts are rejected, and why (a wrong code, an expired code, wrong
   credentials), never what was typed.
 - How many visits with a login go on to submit an application.
-- Never who logged in: no name, email or phone number. A proposed anonymous id stays empty until
-  New York Life approves it ([decision 20](../open-questions.md)).
+- Never who logged in: no name, email or phone number. A proposed anonymous id stays empty: no such
+  id exists today ([decision 20](../open-questions.md)).
 
 ## When to fire it
 
@@ -123,7 +123,7 @@ All details are sent every time; a detail that does not apply is `null`.
 | `login.method` | string | Required. How the identity is checked: credentials for the advisor login, an email and code for the consumer resume | `credentials`, `email-code` |
 | `login.userType` | string | Required. Who is logging in | `advisor`, `consumer` |
 | `login.failureReason` | string or null | Required on `failed`. Why the server rejected the attempt, from a fixed list, never the message text ([decision 19](../open-questions.md)) | `credentials-invalid`, `code-incorrect`, `code-expired`, `no-match`, `service-unavailable` |
-| `login.id` | string or null | Proposed. An anonymous id issued by New York Life's systems, never a name, email, phone number or policy number. **Empty until New York Life approves it** ([decision 20](../open-questions.md)) | `null` |
+| `login.id` | string or null | Proposed. An anonymous id issued by New York Life's systems, never a name, email, phone number or policy number. **Empty: no such id exists today** ([decision 20](../open-questions.md)) | `null` |
 
 ## How to check it
 

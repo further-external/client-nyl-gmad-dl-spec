@@ -50,7 +50,7 @@ flowchart TD
 - **Each validated Next**, from Membership to Payment, also adds "step completed" to the data layer
   just before the page changes. It is not sent to Adobe yet ([decision 9](open-questions.md)).
 - **Signing happens outside the portal**, so it cannot be measured. A return to the receipt page is
-  the only sign that it was completed ([decision 18](open-questions.md)).
+  the only sign that it was completed ([decision 18](open-questions.md): DocuSign returns the applicant to the receipt, confirmed 2026-10-30).
 - **Revisits count.** Back, Edit and a reload record the step again, marked as a repeat, so the
   reports count step views.
 

@@ -70,8 +70,8 @@ The landing page comes in two versions, depending on the association's configura
   Next or "Get an instant quote" that is blocked (an error, with no field named).
 - **Login Activity records identity checks:** the advisor login and the consumer's resume code.
   It is the only event on those two forms.
-- **Form Viewed, Form Started and Form Completed are for engagement forms only**, such as the
-  contact form after Chat now. They never fire inside the application, the quote or a login.
+- **Form Viewed, Form Started and Form Completed are for engagement forms only**: forms your
+  portal builds, from the list in [decision 26](open-questions.md), never a vendor's window. They never fire inside the application, the quote or a login.
 - **The milestone wins.** Its first
   input is recorded as "quote started", "application started" or "login started", and a
   successful submit as "products viewed", the next step or "login succeeded". Nothing is counted
@@ -92,7 +92,7 @@ flowchart TD
 | Landing page **without** it, and the quote drawer | quote started, products viewed, product added (on "Apply for coverage") | none |
 | Application pages, Membership to Payment | Application Started (first input on Membership); Activity: step started, saved, error, step completed, product added (on a Next on Coverage that passes validation), product removed (on a confirmed removal), signature started; Application Completed on the receipt | none |
 | Resume pages and the advisor login | resumed, on the first page after a successful resume | Login Activity only (started, succeeded, failed) |
-| An engagement form, for example the contact form after Chat now | none | Form Viewed, Form Started, Form Completed |
+| An engagement form your portal builds ([decision 26](open-questions.md)) | none | Form Viewed, Form Started, Form Completed |
 
 ## One action, one event
 

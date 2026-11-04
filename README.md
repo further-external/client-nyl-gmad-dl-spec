@@ -59,7 +59,7 @@ Every page view, including each step of the single-page application, follows the
 | **User Detected** | Whether the visitor is a consumer or an advisor, and whether their identity was checked | [events/user-detected.md](events/user-detected.md) |
 | **Page Load Completed** | The page view is complete and can be sent | [events/page-load-completed.md](events/page-load-completed.md) |
 | **Click Interaction** | A click on a tracked link or button: contact, download, print, a window opening or closing, and the element clicked | [events/click-interaction.md](events/click-interaction.md) |
-| **Form Viewed** | An engagement form is shown, for example the contact form after Chat now | [events/form-viewed.md](events/form-viewed.md) |
+| **Form Viewed** | An engagement form your portal builds is shown | [events/form-viewed.md](events/form-viewed.md) |
 | **Form Started** | The visitor's first input on an engagement form | [events/form-started.md](events/form-started.md) |
 | **Form Completed** | An engagement form is sent and accepted, with whether the visitor changed anything | [events/form-completed.md](events/form-completed.md) |
 | **Login Activity** | An identity check: the advisor login and the consumer's resume code. Started, succeeded, failed, logged out. Your login success count | [events/login-activity.md](events/login-activity.md) |

@@ -5,7 +5,9 @@
 [Back to the overview](../README.md)
 
 > **The three form events.** Form Viewed, Form Started and Form Completed describe **engagement
-> forms**: a form that keeps a visitor in touch with you, such as the contact form after Chat now.
+> forms**: a form your portal builds that moves a visitor toward an application. Chat now and
+> Schedule a call open your vendors' pages in a window, so nothing inside them can be tracked
+> (2026-11-03 office hours).
 > They replace the earlier Form Activity event and carry no field-level detail (agreed at the
 > 2026-10-23 office hours). The application and the quote are recorded by the
 > [application events](application-activity.md); the resume and advisor login forms by
@@ -28,7 +30,8 @@
   [Privacy](../privacy.md).
 - **Do not fire it for:** the application or the quote, the resume and advisor login forms, the
   Needs Calculator (it has no submit), or Chat now and Schedule a call themselves (those are
-  [Click Interaction](click-interaction.md)).
+  [Click Interaction](click-interaction.md)), anything inside a vendor's window (chat, scheduling,
+  identity verification) or the payment card window.
 
 ## Example
 
