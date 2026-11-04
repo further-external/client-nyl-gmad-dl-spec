@@ -63,7 +63,7 @@ moment each one fires:
 | `error` | A Next or "Get an instant quote" is blocked by validation or rejected by the server, one per attempt, not per field; or a message under [Error codes](#error-codes) shows | application pages; instant quote panel; the page that shows the message | once per blocked attempt or message shown | none | its own hit | Recommended |
 | `step-completed` | Next passes validation, Membership to Payment, just before the page changes | application pages | once per validated Next | none | data layer only, not sent yet ([decision 9](../open-questions.md)) | Recommended, Proposed |
 | `saved` | The first successful autosave, after Membership | application pages | once per application | none | its own hit | Recommended |
-| `knocked-out` | The first Membership answer is "not a member": the message shows and Next stays disabled. An eligibility rule is a Proposed second reason ([decision 17](../open-questions.md)) | Membership; Eligibility | each time it is shown | none | its own hit | Recommended |
+| `knocked-out` | The applicant is stopped: the first Membership answer is "not a member", or another Membership question or the Eligibility page (age, state, or questions set per association) stops them. The message shows and Next stays disabled ([decision 17](../open-questions.md), answered) | Membership; Eligibility | each time it is shown | none | its own hit | Recommended |
 | `resumed` | The first application page after a resume (code accepted, or Continue Application on the welcome-back page) | the first restored page | once per resume | the cart at that moment | with the page view | Recommended |
 | `esign-started` | Next on the Signature page, as the visitor leaves for DocuSign | Signature | once per Next | none | its own hit | Recommended (Signature counts the page, not leaving it) |
 | `advisor-confirmation-sent` | The advisor's "Application sent successfully" page shows | advisor portal | every view | none | with the page view | Your reports: Advisor Confirmation |
@@ -72,7 +72,7 @@ moment each one fires:
 
 `application.error.code` comes from this fixed list, never from the message text. The portal
 messages come from your developers' list (decision 19, 2026-10-30); each scenario sends one code,
-whatever its title, message and hint say.
+whatever its title, message and hint say. Your developers map each message to its code.
 
 | Scenario | Your message keys | `error.type` | `error.code` |
 |---|---|---|---|
@@ -80,13 +80,13 @@ whatever its title, message and hint say.
 | The emailed link has expired | `linkInvalidConfirmTitle`, `linkInvalidConfirmHeaderMessage` | `system` | `link-expired` |
 | The emailed link cannot be validated | `linkValidationErrorConfirmTitle`, `linkValidationErrorConfirmHeaderMessage` | `system` | `link-validation-failed` |
 | The application was already submitted | `appCompletedConfirmTitle`, `appCompletedConfirmHeaderMessage` | `system` | `application-completed` |
-| Advisor flow: the request is no longer valid | key to confirm ([decision 19](../open-questions.md)) | `system` | `advisor-request-invalid` |
-| Advisor flow: the signature request is no longer valid | key to confirm | `system` | `signature-request-invalid` |
-| Advisor flow: the session is no longer valid | key to confirm | `system` | `session-invalid` |
-| Advisor flow: the advisor is editing the application | key to confirm | `system` | `application-being-edited` |
-| The session timed out (45 minutes) and an action is refused | key to confirm | `system` | `session-expired` |
+| Advisor flow: the request is no longer valid | mapped by your developers ([decision 19](../open-questions.md)) | `system` | `advisor-request-invalid` |
+| Advisor flow: the signature request is no longer valid | mapped by your developers | `system` | `signature-request-invalid` |
+| Advisor flow: the session is no longer valid | mapped by your developers | `system` | `session-invalid` |
+| Advisor flow: the advisor is editing the application | mapped by your developers | `system` | `application-being-edited` |
+| The session timed out (45 minutes) and an action is refused | mapped by your developers | `system` | `session-expired` |
 | Next or "Get an instant quote" blocked by validation | none (no field is named) | `validation` | `required-missing`, `invalid-format` |
-| The server rejects a Next or a quote | key to confirm | `submission` | `service-unavailable` |
+| The server rejects a Next or a quote | mapped by your developers | `submission` | `service-unavailable` |
 
 A refresh after a timeout returns the visitor to the landing page (decision 28, 2026-10-30): that
 is a new landing page view, not a resume, and records no `error`.
@@ -257,7 +257,7 @@ when no product is involved.
 | `application.step.group` | string or null | Required with a step. Recommended. The progress stage | `getting-started`, `coverage-options`, `profile`, `application-review`, `esign-submit` |
 | `application.step.number` | integer or null | Required with a step. Recommended. The step's position in this application's flow | `1`, `2`, `3` |
 | `application.step.repeat` | boolean or null | Required with a step. Recommended. `true` when this step was already viewed for this application in this visit | `true`, `false` |
-| `application.knockoutReason` | string or null | Required on `knocked-out`. Recommended. Why the applicant was stopped | `not-member`; `eligibility-not-met` (Proposed) |
+| `application.knockoutReason` | string or null | Required on `knocked-out`. Recommended. Why the applicant was stopped: `not-member` for the membership answer, `eligibility-not-met` for any other rule. The portal shows one general message, so there is no finer reason | `not-member`, `eligibility-not-met` |
 | `application.error.type` | string or null | Required on `error`. Recommended. What kind of error. Empty on the health pages, where it could reveal an answer | `validation`, `submission`, `system` |
 | `application.error.code` | string or null | Required on `error`. Recommended. The reason, from a fixed list, never the message text ([decision 19](../open-questions.md)). Empty on the health pages | `required-missing`, `invalid-format`, `service-unavailable` |
 | `application.product` | array | Required. For your reports. The products this event is about: the results, the products committed or removed, or the cart on a step. See [Products](../reference/products.md) | a list, or `[]` |

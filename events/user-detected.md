@@ -10,7 +10,7 @@
 - How many consumers resume an application by checking their identity.
 - How many advisors log in.
 - Never who anyone is: no name, email, phone number or customer id. A proposed anonymous id stays
-  empty until New York Life approves it ([decision 20](../open-questions.md)).
+  empty: no such id exists today ([decision 20](../open-questions.md)).
 
 ## When to fire it
 
@@ -82,7 +82,7 @@ window.appEventData.push({
 |---|---|---|---|
 | `user.loginStatus` | string | Required. Recommended. Whether the visitor's identity was checked in this visit. When more than one applies, the strongest wins: `logged-in`, then `verified`, then `anonymous` | `anonymous` (no check), `verified` (a consumer passed the resume email and code check), `logged-in` (an advisor is logged in) |
 | `user.userType` | string | Required. Recommended. Which experience the visitor is in | `consumer`, `advisor`, `advisor-applicant` (an applicant reviewing an application an advisor prepared) |
-| `user.id` | string or null | Proposed. An anonymous id issued by New York Life's systems for a logged-in advisor or a verified consumer, never a name, email, phone number or policy number. **Empty until New York Life approves it** ([decision 20](../open-questions.md)) | `null` |
+| `user.id` | string or null | Proposed. An anonymous id issued by New York Life's systems for a logged-in advisor or a verified consumer, never a name, email, phone number or policy number. **Empty: no such id exists today** ([decision 20](../open-questions.md)) | `null` |
 
 **Valid pairs:** `anonymous` or `verified` with `consumer`; `anonymous` or `logged-in` with
 `advisor`; `anonymous` or `verified` with `advisor-applicant`. Any other pair is a defect.

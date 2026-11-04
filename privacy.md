@@ -32,9 +32,8 @@ reporting is [decision 30](open-questions.md).
 ## One proposed exception
 
 A **proposed anonymous id** (`user.id`, `login.id`) for a logged-in advisor or a verified consumer,
-issued by New York Life's own systems and never derived from a name, email or number. It stays
-empty until New York Life confirms what the current portal passes and approves it
-([decision 20](open-questions.md)).
+issued by New York Life's own systems and never derived from a name, email or number. No such id
+exists today, so it stays empty ([decision 20](open-questions.md), 2026-11-03).
 
 ## How the design keeps it that way
 

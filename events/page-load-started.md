@@ -109,7 +109,7 @@ All 12 details are sent every time; a detail that does not apply is `null`.
 | `page.pageName` | string | Required. For your reports. The page's reporting name: page type, then page id. Proposed ([decisions 5 and 16](../open-questions.md)) | `home\|landing`, `application\|eligibility` |
 | `page.pageId` | string | Required. For your reports. The page's id, from the route table ([decision 16](../open-questions.md)) | `landing`, `eligibility`, `receipt` |
 | `page.pageType` | string | Required. For your reports. The page group ([table below](#page-type-and-stage-by-page)) | `home`, `application`, `confirmation` |
-| `page.association` | string | Required. For your reports. The association whose portal is shown. Set by the site, never guessed from the address ([decisions 2 and 13](../open-questions.md)) | `waepa`, `abe` |
+| `page.association` | string | Required. For your reports. The association whose portal is shown: its acronym from your association service, in lower case as Association (v8) has it today. Set by the site, never guessed from the address ([decisions 2 and 13](../open-questions.md), answered) | `waepa`, `isi`, `moaa` |
 | `page.experience` | string | Required. Recommended. The landing version and layout, kept for the whole visit | `hero-image\|multi` |
 | `page.url` | string | Required. For your reports. The page's address, with every unlisted parameter removed ([below](#how-the-address-is-cleaned)) | `https://waepa.nylinsure.com/eligibility` |
 | `page.host` | string | Required. For your reports. The portal's web address, lower case. Kept separate from the association, because existing segments rely on it | `waepa.nylinsure.com` |
