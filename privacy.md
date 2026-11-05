@@ -41,7 +41,9 @@ exists today, so it stays empty ([decision 20](open-questions.md), 2026-11-03).
   was completed, or carries a value. Forms are recorded as a whole: shown, started, completed, or
   blocked.
 - **Clicks report fixed labels.** A click is recorded only on a tracked control, never on a form
-  field, and its label is written in the code, never read from the screen.
+  field, and its label is written in the code, never read from the screen. One exception, agreed
+  on 2026-11-05: the answer to the membership question (member or not, current or new), which
+  is about the association, not the person ([decision 17](open-questions.md)).
 - **The health pages report no error detail.** An error there records only that a step was blocked.
 - **Addresses are cleaned before they are recorded.** Only listed address parameters are kept; a
   benefit amount, a token or an ad click id in the address is removed
