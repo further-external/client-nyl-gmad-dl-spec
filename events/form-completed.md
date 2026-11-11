@@ -11,8 +11,9 @@
 > They replace the earlier Form Activity event and carry no field-level detail (agreed at the
 > 2026-10-23 office hours). The application and the quote are recorded by the
 > [application events](application-activity.md); the resume and advisor login forms by
-> [Login Activity](login-activity.md). Which engagement forms the portal has is
-> [decision 26](../open-questions.md); `contact-us` is the working example.
+> [Login Activity](login-activity.md). Your forms list ([decision 26](../open-questions.md),
+> answered 2026-11-10) has one engagement form: the **dividend notice**, on Home and Review, used
+> by ABE only. `dividend-notice` is the example.
 
 ## What it answers
 
@@ -31,7 +32,8 @@
 - **Do not fire it for:** the application or the quote, the resume and advisor login forms, the
   Needs Calculator (it has no submit), or Chat now and Schedule a call themselves (those are
   [Click Interaction](click-interaction.md)), anything inside a vendor's window (chat, scheduling,
-  identity verification) or the payment card window.
+  identity verification, the QuickDecision health questions, DocuSign) or the payment card
+  window.
 
 ## Example
 
@@ -47,7 +49,7 @@ sequenceDiagram
     UI->>DL: Page Load Completed
     DL->>AA: page view
   end
-  UI->>DL: Form Viewed (contact-us)
+  UI->>DL: Form Viewed (dividend-notice)
   DL->>AA: separate hit (Form Viewed)
   UI->>DL: Form Started (the visitor's first input)
   DL->>AA: separate hit (Form Started)
@@ -76,15 +78,15 @@ window.appEventData.push({
 
 ## Populated example
 
-The visitor sends the contact form, which opened empty:
+The visitor submits the dividend notice, which opened empty:
 
 ```js
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
   "event": "Form Completed",
   "form": {
-    "name": "contact-us",
-    "category": "contact",
+    "name": "dividend-notice",
+    "category": "notice",
     "prefilled": false,
     "modified": true
   }
@@ -98,13 +100,13 @@ Form Viewed, Form Started and Form Completed.
 
 | Path | Type | Description | Example |
 |---|---|---|---|
-| `form.name` | string | Required. Which form, by a fixed id. The list is [decision 26](../open-questions.md) | `contact-us` |
-| `form.category` | string | Required. The kind of engagement form | `contact` |
+| `form.name` | string | Required. Which form, by a fixed id. The list is [decision 26](../open-questions.md) | `dividend-notice` |
+| `form.category` | string | Required. The kind of engagement form | `notice` |
 | `form.prefilled` | boolean | Required. `true` when the form opened with values the portal filled in itself; says that values were there, never which | `true`, `false` |
 | `form.modified` | boolean or null | Required. On Form Completed: `true` when the visitor entered or changed at least one value, `false` when the form was sent exactly as it opened (only possible when `prefilled` is `true`). Empty on Form Viewed and Form Started | `true`, `false`, `null` |
 
 ## How to check it
 
-1. Send the contact form with test details: one Form Completed with `modified: true`.
+1. Submit the dividend notice with test details: one Form Completed with `modified: true`.
 2. Submit with a required field empty: nothing is sent.
 3. Search the browser console output for what you typed: it must not be found.
