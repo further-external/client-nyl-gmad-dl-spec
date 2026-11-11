@@ -11,6 +11,8 @@
 - Which information windows people open (How Applying Works, About Coverage, the Needs
   Calculator), and how they close them.
 - Which links and buttons are used, and where on the page they sit.
+- How applicants answer the membership question, so the step can be checked for friction
+  ([decision 17](../open-questions.md), answered).
 
 ## When to fire it
 
@@ -25,7 +27,8 @@
     coverage, Remove, See my quote, Apply for coverage in the quote drawer, the signature Next,
     Continue on the resume pages. A drawer's closing button that commits products is the call to
     action, but it is recorded once, as Application Activity `product-added`, never also here;
-  - form fields of any kind: text boxes, dropdowns, radio buttons, checkboxes, health answers;
+  - form fields of any kind: text boxes, dropdowns, radio buttons, checkboxes, health answers.
+    The one exception is the membership question's answer, listed below;
   - Add Spouse, Add Child, the dependent-only confirmation, and any helper chip that adds a
     spouse or a child (household make-up is never recorded, see [Privacy](../privacy.md));
   - messages the system shows by itself, the cookie banner, and anything inside the chat window,
@@ -80,6 +83,7 @@ them.
 | Application PDF, Payment PDF, on the receipt | `download` | `application-pdf`, `payment-pdf` | `pdf` | `button` |
 | Product category tabs | `tab` | `product-category-tabs` | the category id | `tab` |
 | Helper and eligibility chips, on any page. Membership shows three today: "What are my coverage options?", "How does applying work?", "How much does it cost?" | `click` | `helper-chip` | the chip's id: `coverage-options`, `how-applying-works`, `cost` | `button` |
+| The answer to the membership question on Membership, however it is built (buttons or a choice). Sites differ: most ask yes or no, some ask current or new member, and some do not ask. One event per answer selected; nothing fires where the question is not asked | `click` | `membership-answer` | the answer's id: `member` or `not-member` for yes or no; `current-member` or `new-member` | `button` |
 | The buttons and links inside the quote drawers and popovers (list confirmed in the build, [decision 31](../open-questions.md)) | `navigation` | the control's id | empty | `button`, `link` |
 | The button that ends a quote drawer or popover without committing products, such as Continue | `cta` | the button's id: `continue` | empty | `button` |
 
