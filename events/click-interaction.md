@@ -83,7 +83,7 @@ them.
 | Application PDF, Payment PDF, on the receipt | `download` | `application-pdf`, `payment-pdf` | `pdf` | `button` |
 | Product category tabs | `tab` | `product-category-tabs` | the category id | `tab` |
 | Helper and eligibility chips, on any page. Membership shows three today: "What are my coverage options?", "How does applying work?", "How much does it cost?" | `click` | `helper-chip` | the chip's id: `coverage-options`, `how-applying-works`, `cost` | `button` |
-| The answer to the membership question on Membership, however it is built (buttons or a choice). Sites differ: most ask yes or no, some ask current or new member, and some do not ask. One event per answer selected; nothing fires where the question is not asked | `click` | `membership-answer` | the answer's id: `member` or `not-member` for yes or no; `current-member` or `new-member` | `button` |
+| The answer to the membership question on Membership, however it is built (buttons or a choice). Sites differ: most ask yes or no, some ask current or new member, and some do not ask. One event per answer selected; nothing fires where the question is not asked | `click` | `membership-answer` | the answer's id: `member` or `not-member`. Where the site asks current or new member, current is `member` and new is `not-member` | `button` |
 | The buttons and links inside the quote drawers and popovers (list confirmed in the build, [decision 31](../open-questions.md)) | `navigation` | the control's id | empty | `button`, `link` |
 | The button that ends a quote drawer or popover without committing products, such as Continue | `cta` | the button's id: `continue` | empty | `button` |
 
