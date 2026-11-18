@@ -78,6 +78,7 @@ Every page view, including each step of the single-page application, follows the
 | [Page taxonomy](reference/page-taxonomy.md) | How every page is named, and the names you use today next to the recommended ones |
 | [Click elements](reference/click-elements.md) | Which links and buttons are worth tracking, and how to name them |
 | [Reports](reference/reports.md) | The 41 report components and what feeds each one |
+| [Adobe variables](reference/adobe-variables.md) | Your essential reports and business questions, and which eVars, props and events answer them (proposed) |
 | [Privacy](privacy.md) | What is never recorded, and how the design keeps it that way |
 | [Checking a build](checking-a-build.md) | How to test the build before it goes live |
 | [Decisions we need](open-questions.md) | Questions only New York Life can answer, with owners |
@@ -106,3 +107,4 @@ They are written into the specification as proposed, so the build is not held up
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-13 | First version, for review |
+| 1.0 | 2026-11-18 | Adobe variables page added (proposed) |
