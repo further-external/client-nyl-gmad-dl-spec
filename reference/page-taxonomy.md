@@ -59,25 +59,61 @@ Application pages also send `page.stage`, the step group shown in the progress b
 The routes of the health pages the design does not show yet, and the production route table, are
 [decision 16](../open-questions.md).
 
+## Page names for the new template
+
+**Agreed at the 2026-11-17 office hours:** the new template uses these names, not today's. Each
+page reports on its own: "Profile" is only the profile page, and Beneficiary and Payment report
+separately (today one "Profile" page covers all three). Today's names stay on the current
+template until each site moves.
+
+**The `gmad:` prefix is kept.** Every page name in Adobe starts with `gmad:` today. Adobe Launch
+adds it in front of `page.pageName`, so the data layer sends the name without it and Adobe shows,
+for example, `gmad:application|profile`.
+
+| `page.pageName` (data layer) | Page name in Adobe | Today's page on the current template |
+|---|---|---|
+| `home\|landing` | `gmad:home\|landing` | |
+| `application\|membership` | `gmad:application\|membership` | |
+| `application\|eligibility` | `gmad:application\|eligibility` | |
+| `application\|coverage` | `gmad:application\|coverage` | |
+| `application\|beneficiary` | `gmad:application\|beneficiary` | part of Profile |
+| `application\|contact` | `gmad:application\|contact` | `contact` |
+| `application\|profile` | `gmad:application\|profile` | part of Profile |
+| `application\|review` | `gmad:application\|review` | |
+| `application\|health-si` and the other health pages | `gmad:application\|health-si` and so on | |
+| `application\|payment` | `gmad:application\|payment` | part of Profile |
+| `application\|docusign` | `gmad:application\|docusign` | `signature` (Read & Sign) |
+| `confirmation\|receipt` | `gmad:confirmation\|receipt` | the thank-you page |
+| `resume\|resume` | `gmad:resume\|resume` | (segment: Resume Email Confirmation) |
+| `resume\|resume-method` | `gmad:resume\|resume-method` | (segment: Resume OTP Request) |
+| `resume\|resume-code` | `gmad:resume\|resume-code` | (segment: Resume OTP Validation) |
+| `advisor\|advisor-login` | `gmad:advisor\|advisor-login` | |
+| `advisor\|advisor-send-confirmation` | `gmad:advisor\|advisor-send-confirmation` | |
+| `advisor\|application-edit-confirmation` | `gmad:advisor\|application-edit-confirmation` | |
+| `error\|not-found` | `gmad:error\|not-found` | |
+
+Please confirm or correct the names, and fill the last column where today's page is known (the
+page id to page name mapping, [decision 16](../open-questions.md)). Blank means not filled yet.
+
+**Error pages (later, not needed for the first release).** The new template adds an error code
+page and a session expired page. Each gets page-level tracking like any other page, under the
+`error` type, for example `error|session-expired`, once the Adobe Launch embed is in those
+pages' head (your developers). The final names follow their routes. The maintenance page is your
+vendor's and is not tracked.
+
+**Comparing the two templates.** Because the names differ, a comparison of the current and new
+templates is built on purpose: segment on Environment (`page.environment`), which tells the new
+portal from the current site ([decision 25](../open-questions.md)), and map today's pages to the
+new ones with the table above.
+
 ## Today vs recommended
 
-**You asked to keep today's page names wherever a current equivalent exists** (2026-10-25), so
-your segments, dashboards and history carry across the change of template. The recommended names
-apply where there is no equivalent, or where you choose them. The table is completed from the
-current page names in Adobe (page name, eVar1). **Exception, the resume pages:** the
-recommended names are adopted for them (2026-10-27 office hours), because they describe what the
-visitor is doing better than today's names.
+The earlier approach, kept for the record: on 2026-10-25 you asked to keep today's page names
+wherever a current equivalent exists. **The 2026-11-17 decision above replaces it for the new
+template.** Three Executive segments key on the resume page names today and are rebuilt on the
+new names (2026-10-27):
 
-| Page name today | Recommended `page.pageName` | Note |
-|---|---|---|
-| `contact` | `application\|contact` | The Contact page; feeds Contact (event21) |
-| `signature` | `application\|docusign` | The Read & Sign page; feeds Signature (event39) |
-| (the rest, from the current page names) | | |
-
-Three Executive segments key on the resume page names today. They are rebuilt on the adopted
-names (2026-10-27):
-
-| Segment | Recommended page name |
+| Segment | New page name |
 |---|---|
 | Page Name: Resume Email Confirmation | `resume\|resume` (the email step) |
 | Page Name: Resume OTP Request | `resume\|resume-method` (choosing text or call) |
