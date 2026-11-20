@@ -12,8 +12,8 @@
 > 2026-10-23 office hours). The application and the quote are recorded by the
 > [application events](application-activity.md); the resume and advisor login forms by
 > [Login Activity](login-activity.md). Your forms list ([decision 26](../open-questions.md),
-> answered 2026-11-10) has one engagement form: the **dividend notice**, on Home and Review, used
-> by ABE only. `dividend-notice` is the example.
+> answered 2026-11-10) has one engagement form: the **dividend notice**, a section below the
+> legal consent on Review, used by ABE only (it is not on Home; 2026-11-19). `dividend-notice` is the example.
 
 ## What it answers
 

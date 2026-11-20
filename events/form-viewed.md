@@ -12,8 +12,8 @@
 > 2026-10-23 office hours). The application and the quote are recorded by the
 > [application events](application-activity.md); the resume and advisor login forms by
 > [Login Activity](login-activity.md). Your forms list ([decision 26](../open-questions.md),
-> answered 2026-11-10) has one engagement form: the **dividend notice**, on Home and Review, used
-> by ABE only. `dividend-notice` is the example.
+> answered 2026-11-10) has one engagement form: the **dividend notice**, a section below the
+> legal consent on Review, used by ABE only (it is not on Home; 2026-11-19). `dividend-notice` is the example.
 
 ## What it answers
 
@@ -78,7 +78,7 @@ window.appEventData.push({
 
 ## Populated example
 
-The dividend notice shows on an ABE site's Home page, empty:
+The dividend notice shows on an ABE site's Review page, empty:
 
 ```js
 window.appEventData = window.appEventData || [];
@@ -107,7 +107,7 @@ Form Viewed, Form Started and Form Completed.
 
 ## How to check it
 
-1. On an ABE site, open the dividend notice: one Form Viewed; close and reopen it, or reload: a
+1. On an ABE site's Review page, show the dividend notice: one Form Viewed; close and reopen it, or reload: a
    second one.
 2. Each push has `event` and `form` only, with all four details.
 3. Search the browser console output for anything you typed: it must not be found.
