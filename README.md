@@ -106,4 +106,4 @@ They are written into the specification as proposed, so the build is not held up
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-13 | First version, for review |
-| 1.0 | 2026-11-19 | After the 2026-11-19 status meeting: the dividend notice is on Review only and not tracked in the first release (a future enhancement); Login Activity for advisors only when opening a saved application (decision 3); Advisor Confirmation timing (decision 7); reminder email question (decision 32) |
+| 1.0 | 2026-11-19 | After the 2026-11-19 status meeting: the dividend notice is on Review only and not tracked in the first release (a future enhancement); Login Activity for advisors only when opening a saved application (decision 3); Advisor Confirmation timing (decision 7); reminder email question (decision 32); the advisor entry page is named `advisor\|advisor-entry`, not a login ([page taxonomy](reference/page-taxonomy.md)) |
