@@ -51,7 +51,7 @@ Application pages also send `page.stage`, the step group shown in the progress b
 | `resume` | `resume` | none | `resume\|resume` |
 | `resume-method` | `resume` | none | `resume\|resume-method` |
 | `resume-code` | `resume` | none | `resume\|resume-code` |
-| `advisor-login` | `advisor` | none | `advisor\|advisor-login` |
+| `advisor-login` | `advisor` | none | `advisor\|advisor-entry` (not a login, see below) |
 | `advisor-send-confirmation` | `advisor` | none | `advisor\|advisor-send-confirmation` |
 | `application-edit-confirmation` | `advisor` | none | `advisor\|application-edit-confirmation` |
 | `not-found` | `error` | none | `error\|not-found` |
@@ -87,13 +87,17 @@ for example, `gmad:application|profile`.
 | `resume\|resume` | `gmad:resume\|resume` | (segment: Resume Email Confirmation) |
 | `resume\|resume-method` | `gmad:resume\|resume-method` | (segment: Resume OTP Request) |
 | `resume\|resume-code` | `gmad:resume\|resume-code` | (segment: Resume OTP Validation) |
-| `advisor\|advisor-login` | `gmad:advisor\|advisor-login` | |
+| `advisor\|advisor-entry` | `gmad:advisor\|advisor-entry` | |
 | `advisor\|advisor-send-confirmation` | `gmad:advisor\|advisor-send-confirmation` | |
 | `advisor\|application-edit-confirmation` | `gmad:advisor\|application-edit-confirmation` | |
 | `error\|not-found` | `gmad:error\|not-found` | |
 
 Please confirm or correct the names, and fill the last column where today's page is known (the
 page id to page name mapping, [decision 16](../open-questions.md)). Blank means not filled yet.
+
+**One exception to the route rule:** the advisor entry page keeps its route id `advisor-login` as
+`page.pageId`, but its name is `advisor|advisor-entry`: it starts a new application as well as
+opening a saved one, so it is not a login (status meeting, 2026-11-19).
 
 **Error pages (later, not needed for the first release).** The new template adds an error code
 page and a session expired page. Each gets page-level tracking like any other page, under the

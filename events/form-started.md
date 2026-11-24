@@ -12,8 +12,11 @@
 > 2026-10-23 office hours). The application and the quote are recorded by the
 > [application events](application-activity.md); the resume and advisor login forms by
 > [Login Activity](login-activity.md). Your forms list ([decision 26](../open-questions.md),
-> answered 2026-11-10) has one engagement form: the **dividend notice**, on Home and Review, used
-> by ABE only. `dividend-notice` is the example.
+> answered 2026-11-10) has one engagement form, the **dividend notice**: a checkbox section below
+> the legal consent on Review, ABE only. **It is not tracked in the first release** (2026-11-19):
+> it is a future enhancement, and when it is revisited we recommend a click on its checkbox
+> instead. So no form event fires at launch. These events stay specified for engagement forms
+> added later, with `dividend-notice` kept as the illustration.
 
 ## What it answers
 
